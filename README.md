@@ -1,12 +1,17 @@
-LOGO HERE
-=================
+
+<p align="center">
+  <img src="https://github.com/ronen25/panorama/blob/master/images/panorama_logo_with_text.png">
+</p>
+
 A simple system monitor for Linux.
 
 **Current version: 1.0.0**
 
 -------------
 
-IMAGE HERE
+<p align="center">
+  <img src="https://github.com/ronen25/panorama/blob/master/images/screenshot.png">
+</p>
 
 -------------
 
