@@ -58,7 +58,7 @@ target_include_directories(panorama PRIVATE ${CMAKE_SOURCE_DIR}/imgui
         ${CMAKE_SOURCE_DIR}/include
         ${SDL2_INCLUDE_DIRS})
 
-target_link_libraries(panorama Threads::Threads OpenGL::GL dl SDL2 cap)
+target_link_libraries(panorama Threads::Threads ${OPENGL_LIBRARIES} dl SDL2 cap)
 
 # Installation
 install(TARGETS panorama DESTINATION bin)
