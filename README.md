@@ -33,7 +33,7 @@ Building From Source
 
 |Platform|Command|
 |--------|-------|
-| Debian/Ubuntu | ``` $ sudo apt-get install libsdl2-dev libsdl2-image-dev libmesa-dev cmake build-essential python```|
+| Debian/Ubuntu | ``` $ sudo apt-get install libsdl2-dev libsdl2-image-dev libmesa-dev libcap-dev cmake build-essential python```|
 | Fedora | ``` $ sudo dnf install SDL2-devel SDL2_image-devel mesa-libGL-devel libcap-devel cmake gcc-c++ python2```|
 
 2) Clone the project:
