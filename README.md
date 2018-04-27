@@ -3,9 +3,15 @@
   <img src="https://github.com/ronen25/panorama/blob/master/images/panorama_logo_with_text.png">
 </p>
 
-A simple system monitor for Linux.
+<p align="center">
+  A simple system monitor for Linux.
+</p>
 
-**Current version: 1.0.0**
+<p align="center">
+  **Current version: 1.0.0**
+</p>
+
+[![Snap Status](https://build.snapcraft.io/badge/ronen25/panorama.svg)](https://build.snapcraft.io/user/ronen25/panorama)
 
 -------------
 
@@ -13,8 +19,6 @@ A simple system monitor for Linux.
   <img src="https://github.com/ronen25/panorama/blob/master/images/screenshot.png">
 </p>
 
--------------
-[![Snap Status](https://build.snapcraft.io/badge/ronen25/panorama.svg)](https://build.snapcraft.io/user/ronen25/panorama)
 -------------
 
 What is it?
