@@ -2,26 +2,26 @@ name: panorama
 version: "1.0.0"
 summary: A simple system monitor for Linux
 description: |
-	Panorama is a simple systme monitor for Linux. It uses imgui to display a beautiful interface,
-	and allows you to monitor system CPU usage, memory usage, and manage processes.
+    Panorama is a simple systme monitor for Linux. It uses imgui to display a beautiful interface,
+    and allows you to monitor system CPU usage, memory usage, and manage processes.
   
 confinement: devmode
 
 apps:
-	panorama:
-		command: panorama
+    panorama:
+        command: panorama
     
 parts:
-	panorama:
-		plugin: cmake
-		source-type: tar
-		source: https://github.com/ronen25/panorama/archive/1.0.0.tar.gz
-		build-packages:
-			- g++
-			- build-essential
-			- cmake
-			- make
-			- libsdl2-dev
-			- libsdl2-image-dev
-			- libcap-dev
-			- python
+    panorama:
+        plugin: cmake
+        source-type: tar
+        source: https://github.com/ronen25/panorama/archive/1.0.0.tar.gz
+        build-packages:
+            - g++
+            - build-essential
+            - cmake
+            - make
+            - libsdl2-dev
+            - libsdl2-image-dev
+            - libcap-dev
+            - python
