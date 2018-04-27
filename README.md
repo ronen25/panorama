@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  **Current version: 1.0.0**
+  <b>Current version: 1.0.0</b>
 </p>
 
 [![Snap Status](https://build.snapcraft.io/badge/ronen25/panorama.svg)](https://build.snapcraft.io/user/ronen25/panorama)
