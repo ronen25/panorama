@@ -14,6 +14,8 @@ A simple system monitor for Linux.
 </p>
 
 -------------
+[![Snap Status](https://build.snapcraft.io/badge/ronen25/panorama.svg)](https://build.snapcraft.io/user/ronen25/panorama)
+-------------
 
 What is it?
 ----------------
