@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=panorama %U
+Icon=/snap/panorama/current/bin/panorama.svg
+Terminal=false
+Name=Panorama
+Version=1.1.0
+GenericName=System Monitor
+Comment=A small system monitor for Linux
+Categories=System
+Keywords=system;monitor;memory;cpu;task;process;list;panorama;
