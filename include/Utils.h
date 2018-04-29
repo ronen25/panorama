@@ -30,6 +30,7 @@
 #if defined(__linux__) || defined(LINUX)
 #   include <unistd.h>
 #   include <sys/types.h>
+#   include <limits.h>
 #endif // Includes
 
 #include "imgui.h"
@@ -43,6 +44,8 @@ namespace panorama {
         bool isNumber(const char *cstr);
 
         bool isRunningInPrivilagedMode();
+
+        std::string getCurrentProcessDir();
     }
 
     namespace guiutils {

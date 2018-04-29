@@ -57,6 +57,21 @@ bool panorama::utils::isRunningInPrivilagedMode() {
 #endif // Per-platform implementation
 }
 
+string panorama::utils::getCurrentProcessDir() {
+    char path[PATH_MAX];
+    string retPath;
+    memset(path, 0, sizeof(path));
+
+    if (readlink("/proc/self/exe", path, PATH_MAX) != -1) {
+        retPath = path;
+        retPath.erase(retPath.find_last_of('/'));
+    }
+    else
+        return "";
+
+    return retPath;
+}
+
 void panorama::guiutils::drawBackgroundTextOnGraph(ImFont *fntTextFont,
                                                    const ImVec2 &v2GraphSize,
                                                    const std::string &sDrawnString,

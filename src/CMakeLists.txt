@@ -62,5 +62,6 @@ target_link_libraries(panorama Threads::Threads ${OPENGL_LIBRARIES} dl SDL2 cap)
 
 # Installation
 install(TARGETS panorama DESTINATION bin)
-install(FILES "${CMAKE_SOURCE_DIR}/fonts/DroidSans.ttf"
-        DESTINATION /etc/panorama/fonts)
+install(FILES "${CMAKE_SOURCE_DIR}/fonts/DroidSans.ttf" DESTINATION bin)
+install(PROGRAMS panorama-snap-launch DESTINATION bin)
+install(FILES "${CMAKE_SOURCE_DIR}/images/panorama.svg" DESTINATION bin)

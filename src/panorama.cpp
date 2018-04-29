@@ -43,13 +43,14 @@ void loadFonts(ImGuiIO &io) {
     io.Fonts->AddFontDefault();
 
     // Check if the fonts exists.
-    if (access("/etc/panorama/fonts/DroidSans.ttf", F_OK) == 0) {
-        io.Fonts->AddFontFromFileTTF("/etc/panorama/fonts/DroidSans.ttf", 16.0f * g_fFontScaling);
-        io.Fonts->AddFontFromFileTTF("/etc/panorama/fonts/DroidSans.ttf", 40.0f * g_fFontScaling);
-        io.Fonts->AddFontFromFileTTF("/etc/panorama/fonts/DroidSans.ttf", 60.0f * g_fFontScaling);
+    std::string sFontPath = panorama::utils::getCurrentProcessDir() + "/DroidSans.ttf";
+    if (access(sFontPath.c_str(), F_OK) == 0) {
+        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), 16.0f * g_fFontScaling);
+        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), 40.0f * g_fFontScaling);
+        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), 60.0f * g_fFontScaling);
     }
     else {
-        std::cerr << "Error: Could not find font in /etc/panorama/fonts/DroidSans.ttf, using fallback!" << std::endl;
+        std::cerr << "Error: Could not find font " << sFontPath << ", using fallback!" << std::endl;
 
         // Fallback to default font
         for (int i = 0; i < 3; i++)
@@ -104,7 +105,7 @@ int initApplication() {
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui_ImplSdlGL2_Init(g_sdlWindow);
-    //io.NavFlags |= ImGuiNavFlags_EnableKeyboard;
+    io.NavFlags |= ImGuiNavFlags_EnableKeyboard;
 
     // Load fonts
     loadFonts(io);
