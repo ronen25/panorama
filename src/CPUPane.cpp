@@ -74,6 +74,7 @@ void panorama::CPUPane::renderUI() {
 
     // Graph controls
     {
+        ImGui::AlignTextToFramePadding();
         ImGui::Text("Graph Type: ");
 
         ImGui::SameLine();
