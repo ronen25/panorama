@@ -34,7 +34,13 @@ Any video driver that has support for OpenGL 2.1 will suffice. Tested with AMD, 
 ### Snap Packages (Recommended)
 Snap builds are automatically built with every commit to this repo.
 
-You can find ARMHF, ARM64, i386 and AMD64 builds [here](https://build.snapcraft.io/user/ronen25/panorama).
+You can install them directly from the snap store:
+
+```
+$ sudo snap install panorama
+```
+
+-------------
 
 ### Building From Source
 **Note:** Your compiler must be fully compatible with the C++14 standard!
