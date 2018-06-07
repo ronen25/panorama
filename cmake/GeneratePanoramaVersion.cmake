@@ -37,7 +37,7 @@ function(GeneratePanoramaVersion)
     # Set version string
     if(NOT GIT_BRANCH MATCHES "master")
         # Set versions
-        set(PANORAMA_VERSION "\"${GIT_BRANCH}-${GIT_COMMIT_HASH}\"")
+        set(PANORAMA_VERSION "${GIT_BRANCH}-${GIT_COMMIT_HASH}")
     else()
         # Read version information from file
         file(READ ${CMAKE_SOURCE_DIR}/version PANORAMA_VERSION)
@@ -62,4 +62,6 @@ function(GeneratePanoramaVersion)
     else()
         set(PANORAMA_VERSION_PATCH 0)
     endif()
+
+    set(PANORAMA_VERSION ${PANORAMA_VERSION} PARENT_SCOPE)
 endfunction()
