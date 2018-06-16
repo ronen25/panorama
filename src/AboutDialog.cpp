@@ -41,19 +41,35 @@ void panorama::AboutDialog::renderUI() {
 
     ImGui::Separator();
 
-    // IMGUI Version
-    ImGui::TextDisabled("ImGui version: %s", IMGUI_VERSION);
+    ImGui::Columns(2, "##clmnVersions", false);
+    ImGui::Separator();
 
-    // SDL Version
+    // IMGUI version
+    ImGui::TextDisabled("IMGui version");
+    ImGui::NextColumn();
+    ImGui::TextDisabled(IMGUI_VERSION);
+    ImGui::NextColumn();
+
+    // SDL version
+    ImGui::TextDisabled("SDL Version");
+    ImGui::NextColumn();
     {
         SDL_version sdlVersionInfo;
 
         SDL_VERSION(&sdlVersionInfo);
 
-        ImGui::TextDisabled("SDL version: %d.%d.%d", sdlVersionInfo.major,
+        ImGui::TextDisabled("%d.%d.%d", sdlVersionInfo.major,
                             sdlVersionInfo.minor,
                             sdlVersionInfo.patch);
+        ImGui::NextColumn();
     }
+
+    // FontAwesome version
+    // TODO: Find a way to extract this at compile time/runtime - currently hardcoded!
+    ImGui::TextDisabled("FontAwesome version");
+    ImGui::NextColumn();
+    ImGui::TextDisabled("5.0.13");
+    ImGui::NextColumn();
 
     ImGui::Separator();
 

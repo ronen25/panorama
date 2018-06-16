@@ -19,13 +19,15 @@
 #ifndef PANORAMA_SIDEBAR_H
 #define PANORAMA_SIDEBAR_H
 
-#include "imgui.h"
-
 #include <SDL.h>
 
-#include "AboutDialog.h"
-
 #include <cstdlib>
+
+#include "imgui.h"
+
+#include "AboutDialog.h"
+#include "Globals.h"
+#include "FontDefinitions.h"
 
 namespace panorama {
 
