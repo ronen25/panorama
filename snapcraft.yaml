@@ -1,11 +1,13 @@
 name: panorama
-version: "1.1.1"
+version: "1.2"
 summary: A simple system monitor for Linux
 description: |
-    Panorama is a simple system monitor for Linux. It  allows you to monitor system CPU and
+    Panorama is a simple system monitor for Linux. It allows you to monitor system CPU and
     memory usage, and manage processes.
 grade: stable
 confinement: strict
+icon: images/panorama.svg
+type: app
 
 build-packages:
     - g++
@@ -19,13 +21,12 @@ build-packages:
 apps:
     panorama:
         plugs:
-            - x11
             - opengl
             - process-control
             - hardware-observe
             - system-observe
         command: bin/panorama-snap-launch $SNAP/bin/panorama
-        desktop: ../panorama.desktop
+        desktop: ../desktop/panorama.desktop
     
 parts:
     panorama:
