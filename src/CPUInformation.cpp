@@ -24,6 +24,19 @@ panorama::CPUInformation::CPUInformation() {
 
 panorama::CPUInformation::~CPUInformation() { }
 
+void panorama::CPUInformation::sanitizeModelName() {
+    const char *PATTERNS[] = { "(R)", "(TM)", nullptr };
+    std::string::size_type szPos = 0;
+
+    for (const char **ptr = PATTERNS; *ptr != nullptr; ptr++) {
+        auto pos = m_sModelName.find(*ptr, szPos);
+        if (pos != std::string::npos) {
+            m_sModelName.erase(pos, std::strlen(*ptr));
+            szPos = pos;
+        }
+    }
+}
+
 #if defined(__linux__) || defined(LINUX)
 
 // ---------------------------------------------------------------------------------------
@@ -53,8 +66,12 @@ void panorama::CPUInformation::getInformation_Linux() {
             m_sVendorName = sValue;
         else if (sKey == PANORAMA_HEADER_MODEL_NUMBER)
             m_nModelNumber = std::stoi(sValue);
-        else if (sKey == PANORAMA_HEADER_MODEL_NAME)
+        else if (sKey == PANORAMA_HEADER_MODEL_NAME) {
             m_sModelName = sValue;
+
+            // Strip any (R) or (TM)
+            sanitizeModelName();
+        }
         else if (sKey == PANORAMA_HEADER_CPU_MHZ)
             m_nCPUSpeedMHZ = std::stoi(sValue);
         else if (sKey == PANORAMA_HEADER_SIBLINGS)

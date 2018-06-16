@@ -86,6 +86,9 @@ namespace panorama {
         inline int cacheSize() const { return m_nCPUSpeedMHZ; }
         inline const std::vector<std::string> features() { return m_vFeatures; }
 
+        // Helpers
+        void sanitizeModelName();
+
     private:
         // Per-platform implementation of the data getter function
 #       if defined(__linux__) || defined(LINUX)
