@@ -1,0 +1,19 @@
+1.2 - June 16th, 2018
+------------------------
+1. Compiled using a newer libelf (USN-3670-1).
+2. Sidebar now has icons (uses FontAwesome).
+3. Component versions in the about dialog are now nicely displayed.
+
+1.1.1 - May 7th, 2018
+------------------------
+1. Minor snap fixes
+2. Added license file in source
+
+1.1 - April 30th, 2018
+------------------------
+1. Minor usability fixes
+2. Built for the snap store
+
+1.0.0 - April 27th, 2018
+-------------------------
+Initial release
