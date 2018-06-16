@@ -30,6 +30,7 @@
 #include <wordexp.h>
 
 #include "MainWindow.h"
+#include "IconsFontAwesome5.h"
 
 #define MAIN_WINDOW_WIDTH 1280
 #define MAIN_WINDOW_HEIGHT 720
@@ -47,6 +48,25 @@ void loadFonts(ImGuiIO &io) {
     std::string sFontPath = panorama::utils::getCurrentProcessDir() + "/DroidSans.ttf";
     if (access(sFontPath.c_str(), F_OK) == 0) {
         io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_REGULAR * g_fFontScaling);
+
+        // Load fontawesome into the regular font
+        {
+            std::string sFontAwesomePath = panorama::utils::getCurrentProcessDir() + "/fa-solid-900.ttf";
+            if (access(sFontAwesomePath.c_str(), F_OK) == 0) {
+                static const ImWchar icons_ranges[] = {ICON_MIN_FA, ICON_MAX_FA, 0};
+                ImFontConfig icons_config;
+                icons_config.MergeMode = true;
+                icons_config.PixelSnapH = true;
+
+                io.Fonts->AddFontFromFileTTF(sFontAwesomePath.c_str(),
+                                             (PANORAMA_FONT_SIZE_REGULAR - 2) * g_fFontScaling,
+                                             &icons_config, icons_ranges);
+            }
+            else
+                std::cerr << "Error: Could not find font " << sFontAwesomePath <<
+                          ", no icons will be displayed!" << std::endl;
+        }
+
         io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_TITLE * g_fFontScaling);
         io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_EXTRALARGE * g_fFontScaling);
     }

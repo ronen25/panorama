@@ -25,25 +25,26 @@ panorama::Sidebar::~Sidebar() { }
 
 void panorama::Sidebar::renderUI() {
     // Determine scaling
-    {
-        const char *cstrScaling = std::getenv("PANORAMA_SCALING");
-        if (cstrScaling != nullptr && std::stof(cstrScaling) > 1.0)
-            m_fWidth = ImGui::CalcTextSize("PROCESSES").x + 30;
-    }
+    const char *cstrScaling = std::getenv("PANORAMA_SCALING");
+    if (cstrScaling != nullptr && std::stof(cstrScaling) > 1.0)
+        m_fWidth = ImGui::CalcTextSize("PROCESSES").x + 30;
 
     const ImVec2 v2ButtonSize = ImVec2(m_fWidth, m_fWidth / 2);
     static bool bIsAboutOpen = true;
 
     // CPU Pane button
-    if (ImGui::Selectable("CPU", (m_eCurrentlyVisiblePane == PaneType::PANETYPE_CPU), 0, v2ButtonSize))
+    if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
+                          (m_eCurrentlyVisiblePane == PaneType::PANETYPE_CPU), 0, v2ButtonSize))
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_CPU;
 
-    // Disk Pane button
-    if (ImGui::Selectable("PROCESSES", (m_eCurrentlyVisiblePane == PaneType::PANETYPE_PROCESSES), 0, v2ButtonSize))
+    // Processes Pane button
+    if (ImGui::Selectable(ICON_FA_WINDOW_RESTORE " PROCESSES",
+                          (m_eCurrentlyVisiblePane == PaneType::PANETYPE_PROCESSES), 0, v2ButtonSize))
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_PROCESSES;
 
     // Resources Pane button
-    if (ImGui::Selectable("MEMORY", (m_eCurrentlyVisiblePane == PaneType::PANETYPE_MEMORY), 0, v2ButtonSize))
+    if (ImGui::Selectable(ICON_FA_MEMORY " MEMORY",
+                          (m_eCurrentlyVisiblePane == PaneType::PANETYPE_MEMORY), 0, v2ButtonSize))
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
@@ -53,7 +54,7 @@ void panorama::Sidebar::renderUI() {
     // About
     if (ImGui::Selectable("About...")) {
         bIsAboutOpen = true;
-        ImGui::OpenPopup("About Dialog");
+        ImGui::OpenPopup("About Panorama...");
     }
 
     // Exit
@@ -64,7 +65,7 @@ void panorama::Sidebar::renderUI() {
         SDL_PushEvent(&event);
     }
 
-    if (ImGui::BeginPopupModal("About Dialog", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
+    if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
         AboutDialog::renderUI();
 
         ImGui::EndPopup();
