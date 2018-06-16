@@ -40,39 +40,10 @@ You can install them directly from the snap store:
 $ sudo snap install panorama
 ```
 
+### Compiling from Source
+Please refer to [this](https://github.com/ronen25/panorama/wiki/Compiling-from-Source) wiki page.
+
 -------------
-
-### Building From Source
-**Note:** Your compiler must be fully compatible with the C++14 standard!
-
-1) Install the required dependencies:
-
-|Platform|Command|
-|--------|-------|
-| Debian/Ubuntu | ``` $ sudo apt-get install libsdl2-dev libsdl2-image-dev libgl1-mesa-dev libcap-dev cmake build-essential python```|
-| Fedora | ``` $ sudo dnf install SDL2-devel SDL2_image-devel mesa-libGL-devel libcap-devel cmake gcc-c++ python2```|
-
-2) Clone the project:
-
-```
-git clone https://github.com/ronen25/panorama
-```
-
-3) Go to the `panorama` directory and create a `build` directory:
-```
-cd panorama
-mkdir build && cd build
-```
-
-4) Initiate a build using CMake:
-```
-cmake -DCMAKE_BUILD_TYPE=Release ..
-```
-
-5) _(Optional)_ Install the program (elevated permissions might be required):
-```
-make install
-```
 
 # FAQ
 1 *I have a HiDPI screen and Panorama's font looks small :-(*
