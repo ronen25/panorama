@@ -25,6 +25,7 @@
 
 #include <iostream>
 #include <string>
+
 #include <unistd.h>
 #include <wordexp.h>
 
@@ -42,12 +43,12 @@ void loadFonts(ImGuiIO &io) {
     // Load default font
     io.Fonts->AddFontDefault();
 
-    // Check if the fonts exists.
+    // Check if the regular font fonts exists.
     std::string sFontPath = panorama::utils::getCurrentProcessDir() + "/DroidSans.ttf";
     if (access(sFontPath.c_str(), F_OK) == 0) {
-        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), 16.0f * g_fFontScaling);
-        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), 40.0f * g_fFontScaling);
-        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), 60.0f * g_fFontScaling);
+        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_REGULAR * g_fFontScaling);
+        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_TITLE * g_fFontScaling);
+        io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_EXTRALARGE * g_fFontScaling);
     }
     else {
         std::cerr << "Error: Could not find font " << sFontPath << ", using fallback!" << std::endl;
