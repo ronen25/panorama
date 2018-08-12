@@ -48,8 +48,34 @@ void panorama::Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    const float fAvailSpace = ImGui::GetContentRegionAvail().y - 2 * ImGui::GetItemsLineHeightWithSpacing();
+    const float fAvailSpace = ImGui::GetContentRegionAvail().y - 3 * ImGui::GetItemsLineHeightWithSpacing();
     ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
+
+    // Theme submenu
+    if (ImGui::BeginMenu("Theme")) {
+        if (ImGui::MenuItem("Light (default)",
+                            nullptr,
+                            panorama::theme() == panorama::Theme::PANORAMA_THEME_LIGHT)) {
+            panorama::setTheme(panorama::Theme::PANORAMA_THEME_LIGHT);
+        }
+
+        if (ImGui::MenuItem("Dark",
+                            nullptr,
+                            panorama::theme() == panorama::Theme::PANORAMA_THEME_DARK)) {
+            panorama::setTheme(panorama::Theme::PANORAMA_THEME_DARK);
+        }
+
+        if (ImGui::MenuItem("Classic",
+                            nullptr,
+                            panorama::theme() == panorama::Theme::PANORAMA_THEME_CLASSIC)) {
+            panorama::setTheme(panorama::Theme::PANORAMA_THEME_CLASSIC);
+        }
+
+        ImGui::EndMenu();
+    }
+
+    // Spacing
+    ImGui::Spacing();
 
     // About
     if (ImGui::Selectable("About...")) {

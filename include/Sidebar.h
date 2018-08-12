@@ -28,6 +28,7 @@
 #include "AboutDialog.h"
 #include "Globals.h"
 #include "FontDefinitions.h"
+#include "Theming.h"
 
 namespace panorama {
 
