@@ -16,50 +16,26 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PANORAMA_SIDEBAR_H
-#define PANORAMA_SIDEBAR_H
+#ifndef PANORAMA_THEMING_H
+#define PANORAMA_THEMING_H
 
-#include <SDL.h>
+#include <imgui.h>
+#include <imgui_internal.h>
 
-#include <cstdlib>
-
-#include "imgui.h"
-
-#include "AboutDialog.h"
-#include "Globals.h"
-#include "FontDefinitions.h"
-#include "Theming.h"
-
+// Theming enumeration - kindda duplicates ImGui's own theming,
+// but we need something like this to set up the theming menu.
 namespace panorama {
 
-    // Enums
-    enum PaneType {
-        PANETYPE_CPU,
-        PANETYPE_PROCESSES,
-        PANETYPE_MEMORY
+    enum Theme {
+        PANORAMA_THEME_LIGHT,
+        PANORAMA_THEME_DARK,
+        PANORAMA_THEME_CLASSIC
     };
 
-    class Sidebar {
-    public:
-        // Cnstr.
-        Sidebar(float fWidth);
-
-        // Dstr.
-        ~Sidebar();
-
-        // Methods
-        void renderUI();
-
-        // Getters
-        inline float width() const { return m_fWidth; }
-        inline PaneType currentlyVisiblePane() const { return m_eCurrentlyVisiblePane; }
-
-    private:
-        // Properties
-        float m_fWidth;
-        PaneType m_eCurrentlyVisiblePane;
-    };
-
+    Theme theme();
+    void setTheme(Theme eNewTheme);
 }
 
-#endif //PANORAMA_SIDEBAR_H
+extern panorama::Theme g_Theme;
+
+#endif // PANORAMA_THEMING_H

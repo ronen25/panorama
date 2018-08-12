@@ -16,50 +16,29 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PANORAMA_SIDEBAR_H
-#define PANORAMA_SIDEBAR_H
-
-#include <SDL.h>
-
-#include <cstdlib>
-
-#include "imgui.h"
-
-#include "AboutDialog.h"
-#include "Globals.h"
-#include "FontDefinitions.h"
 #include "Theming.h"
 
-namespace panorama {
+// Global variable that controls the theme
+panorama::Theme g_Theme;
 
-    // Enums
-    enum PaneType {
-        PANETYPE_CPU,
-        PANETYPE_PROCESSES,
-        PANETYPE_MEMORY
-    };
-
-    class Sidebar {
-    public:
-        // Cnstr.
-        Sidebar(float fWidth);
-
-        // Dstr.
-        ~Sidebar();
-
-        // Methods
-        void renderUI();
-
-        // Getters
-        inline float width() const { return m_fWidth; }
-        inline PaneType currentlyVisiblePane() const { return m_eCurrentlyVisiblePane; }
-
-    private:
-        // Properties
-        float m_fWidth;
-        PaneType m_eCurrentlyVisiblePane;
-    };
-
+panorama::Theme panorama::theme() {
+    return g_Theme;
 }
 
-#endif //PANORAMA_SIDEBAR_H
+void panorama::setTheme(panorama::Theme eNewTheme) {
+    g_Theme = eNewTheme;
+
+    ImGuiContext *pContext = ImGui::GetCurrentContext();
+
+    switch (g_Theme) {
+    case PANORAMA_THEME_CLASSIC:
+        ImGui::StyleColorsClassic(&pContext->Style);
+        break;
+    case PANORAMA_THEME_DARK:
+        ImGui::StyleColorsDark(&pContext->Style);
+        break;
+    case PANORAMA_THEME_LIGHT:
+        ImGui::StyleColorsLight(&pContext->Style);
+        break;
+    }
+}

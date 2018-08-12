@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <b>Current version: 1.2</b>
+  <b>Current version: 1.2.1</b>
 </p>
 
 [![Snap Status](https://build.snapcraft.io/badge/ronen25/panorama.svg)](https://build.snapcraft.io/user/ronen25/panorama)
@@ -22,7 +22,7 @@
 -------------
 
 ## What is it?
-Panorama is a very simple Linux system monitor written in C++ using the IMGui UI toolkit. It's meant to show that writing beautiful and functional tools using IMGui is quite easy.
+Panorama is a very simple Linux system monitor written in C++ using the ImGui UI toolkit. It's meant to show that writing beautiful and functional tools using IMGui is quite easy.
 
 ## Supported Platforms
 Currently the tool was tested on KDE Neon 5.12, Ubuntu 16.04/18.04 LTS, and Fedora WS 27 with the AMD64 and x86 variants.
