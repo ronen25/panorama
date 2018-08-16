@@ -1,10 +1,10 @@
 [Desktop Entry]
 Type=Application
-Exec=$SNAP/bin/panorama-snap-launch %U
-Icon=$SNAP/bin/panorama.svg
+Exec=panorama %U
+Icon=$SNAP/panorama.svg
 Terminal=false
 Name=Panorama
-Version=1.2
+Version=1.2.2
 GenericName=System Monitor
 Comment=A small system monitor for Linux
 Categories=System
