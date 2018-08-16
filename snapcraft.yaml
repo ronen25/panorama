@@ -1,5 +1,5 @@
 name: panorama
-version: "1.2.1"
+version: "1.2.2"
 summary: A simple system monitor for Linux
 description: |
     Panorama is a simple system monitor for Linux. It allows you to monitor system CPU and
@@ -26,7 +26,7 @@ apps:
             - process-control
             - hardware-observe
             - system-observe
-        command: bin/panorama-snap-launch $SNAP/bin/panorama
+        command: desktop-launch $SNAP/bin/panorama
         desktop: ../desktop/panorama.desktop
     
 parts:
@@ -40,4 +40,5 @@ parts:
             - libsdl2-image-2.0-0
             - libcap2
             - libc6
+        after: [desktop-glib-only]
 
