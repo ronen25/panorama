@@ -11,9 +11,9 @@
   <b>Current version: 1.2.2</b>
 </p>
 
-<p align="center">
+<div align="center">
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/panorama)
-</p>
+</div>
 -------------
 
 <p align="center">
