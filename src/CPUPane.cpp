@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using IMGui.
- *  Copyright (C) 2018 Ronen Lapushner
+ *  Copyright (C) 2018-2019 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
