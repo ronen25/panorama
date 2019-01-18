@@ -30,6 +30,8 @@
 #include "FontDefinitions.h"
 #include "Theming.h"
 
+#define ITEMS_AT_BOTTOM 2
+
 namespace panorama {
 
     // Enums

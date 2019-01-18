@@ -33,6 +33,38 @@ void panorama::Sidebar::renderUI() {
     static bool bIsAboutOpen = false;
     static bool bIsSettingsOpen = false;
 
+    // Theme selections
+    ImGui::Text("Theme:");
+    ImGui::SameLine();
+
+    const float fIconWidth = ImGui::CalcTextSize(ICON_FA_MOON).x;
+    // Theme selections
+    if (ImGui::Selectable(ICON_FA_SUN, (panorama::theme() == panorama::Theme::PANORAMA_THEME_LIGHT),
+                          0, ImVec2 { fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing() })) {
+
+        panorama::setTheme(panorama::Theme::PANORAMA_THEME_LIGHT);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Light (default)");
+        ImGui::EndTooltip();
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Selectable(ICON_FA_MOON, (panorama::theme() == panorama::Theme::PANORAMA_THEME_DARK),
+                                         0, ImVec2 { fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing() })) {
+            panorama::setTheme(panorama::Theme::PANORAMA_THEME_DARK);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Dark");
+        ImGui::EndTooltip();
+    }
+
+    // Spacing
+    ImGui::Spacing();
+
     // CPU Pane button
     if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
                           (m_eCurrentlyVisiblePane == PaneType::PANETYPE_CPU), 0, v2ButtonSize))
@@ -49,14 +81,8 @@ void panorama::Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    const float fAvailSpace = ImGui::GetContentRegionAvail().y - 3 * ImGui::GetItemsLineHeightWithSpacing();
+    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetItemsLineHeightWithSpacing();
     ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
-
-    // Settings window
-    if (ImGui::Selectable("Settings...")) {
-        bIsSettingsOpen = true;
-        ImGui::OpenPopup("Settings");
-    }
 
     // Theme submenu
     /*
