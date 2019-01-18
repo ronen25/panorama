@@ -25,6 +25,8 @@
 #include "imgui.h"
 #include "config.h"
 
+#include "FontDefinitions.h"
+
 #include <SDL.h>
 
 namespace panorama {

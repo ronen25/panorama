@@ -20,7 +20,11 @@
 
 void panorama::AboutDialog::renderUI() {
     // Version
-    ImGui::Text("Panorama v.%s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
+    ImGui::PushFont(panorama::getFont(PANORAMA_FONT_EXTRALARGE));
+    ImGui::Text("PANORAMA");
+    ImGui::PopFont();
+
+    ImGui::Text("Version %s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
 
     // Determine compiler name
     std::stringstream sstrCompilerVersion;
@@ -31,18 +35,27 @@ void panorama::AboutDialog::renderUI() {
                                         << __clang_minor__ << "." << __clang_patchlevel__;
 #endif
 
-    ImGui::BulletText("Built on %s using %s.", PANORAMA_BUILD_DATE, sstrCompilerVersion.str().c_str());
-
     ImGui::Separator();
 
-    ImGui::Text("Copyright (c) Ronen Lapushner 2018.");
-
+    ImGui::Text("Copyright (c) Ronen Lapushner 2018-2019.");
     ImGui::Text("Redistributed under the GNU GPL v3+ license.");
 
     ImGui::Separator();
 
     ImGui::Columns(2, "##clmnVersions", false);
     ImGui::Separator();
+
+    // Compiler
+    ImGui::TextDisabled("Compiler");
+    ImGui::NextColumn();
+    ImGui::TextDisabled(sstrCompilerVersion.str().c_str());
+    ImGui::NextColumn();
+
+    // Build Date
+    ImGui::TextDisabled("Build Date");
+    ImGui::NextColumn();
+    ImGui::TextDisabled(PANORAMA_BUILD_DATE);
+    ImGui::NextColumn();
 
     // IMGUI version
     ImGui::TextDisabled("IMGui version");
@@ -70,10 +83,4 @@ void panorama::AboutDialog::renderUI() {
     ImGui::NextColumn();
     ImGui::TextDisabled("5.0.13");
     ImGui::NextColumn();
-
-    ImGui::Separator();
-
-    // Close button
-    if (ImGui::Button("Close"))
-        ImGui::CloseCurrentPopup();
 }
