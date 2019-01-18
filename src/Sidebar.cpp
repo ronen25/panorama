@@ -30,7 +30,8 @@ void panorama::Sidebar::renderUI() {
         m_fWidth = ImGui::CalcTextSize("PROCESSES").x + 30;
 
     const ImVec2 v2ButtonSize = ImVec2(m_fWidth, m_fWidth / 2);
-    static bool bIsAboutOpen = true;
+    static bool bIsAboutOpen = false;
+    static bool bIsSettingsOpen = false;
 
     // CPU Pane button
     if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
@@ -51,7 +52,14 @@ void panorama::Sidebar::renderUI() {
     const float fAvailSpace = ImGui::GetContentRegionAvail().y - 3 * ImGui::GetItemsLineHeightWithSpacing();
     ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
 
+    // Settings window
+    if (ImGui::Selectable("Settings...")) {
+        bIsSettingsOpen = true;
+        ImGui::OpenPopup("Settings");
+    }
+
     // Theme submenu
+    /*
     if (ImGui::BeginMenu("Theme")) {
         if (ImGui::MenuItem("Light (default)",
                             nullptr,
@@ -73,6 +81,7 @@ void panorama::Sidebar::renderUI() {
 
         ImGui::EndMenu();
     }
+    */
 
     // Spacing
     ImGui::Spacing();
@@ -91,8 +100,16 @@ void panorama::Sidebar::renderUI() {
         SDL_PushEvent(&event);
     }
 
+    // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
         AboutDialog::renderUI();
+
+        ImGui::EndPopup();
+    }
+
+    // Render settings window?
+    if (ImGui::BeginPopupModal("Settings", &bIsSettingsOpen, ImGuiWindowFlags_NoResize)) {
+        // TODO: Render settings window
 
         ImGui::EndPopup();
     }

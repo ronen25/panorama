@@ -22,7 +22,7 @@ void panorama::AboutDialog::renderUI() {
     // Version
     ImGui::Text("Panorama v.%s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
 
-    // Determine compiler name`
+    // Determine compiler name
     std::stringstream sstrCompilerVersion;
 #if     defined(__GNUC__)
     sstrCompilerVersion << "GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__;

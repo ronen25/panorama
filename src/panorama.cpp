@@ -19,9 +19,10 @@
 #include "Globals.h"
 
 #include "imgui.h"
-#include "imgui_impl_sdl_gl2.h"
-
-#include "GL/gl3w.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl2.h"
+#include <SDL.h>
+#include <SDL_opengl.h>
 
 #include <iostream>
 #include <string>
@@ -119,14 +120,17 @@ int initApplication() {
     g_glContext = SDL_GL_CreateContext(g_sdlWindow);
     SDL_GL_SetSwapInterval(1); // Enable vsync
 
-    // Init gl3w
-    gl3wInit();
-
     // Setup ImGui binding
+    IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    ImGui_ImplSdlGL2_Init(g_sdlWindow);
-    io.NavFlags |= ImGuiNavFlags_EnableKeyboard;
+
+    // Initialize ImGui
+    ImGui_ImplSDL2_InitForOpenGL(g_sdlWindow, g_glContext);
+    ImGui_ImplOpenGL2_Init();
+
+    // Enable keyboard navigation
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
     // Load fonts
     loadFonts(io);
@@ -139,7 +143,8 @@ int initApplication() {
 
 void destroyApplication() {
     // Cleanup
-    ImGui_ImplSdlGL2_Shutdown();
+    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 
     SDL_GL_DeleteContext(g_glContext);
@@ -170,22 +175,27 @@ int main(int argc, char **argv) {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
-            ImGui_ImplSdlGL2_ProcessEvent(&event);
+            ImGui_ImplSDL2_ProcessEvent(&event);
 
             if (event.type == SDL_QUIT)
                 done = true;
         }
 
-        ImGui_ImplSdlGL2_NewFrame(g_sdlWindow);
+        ImGui_ImplOpenGL2_NewFrame();
+        ImGui_ImplSDL2_NewFrame(g_sdlWindow);
+        ImGui::NewFrame();
 
         // Render main window
         wndMain.render();
 
         // Rendering
+        ImGui::Render();
         glViewport(0, 0, (int) ImGui::GetIO().DisplaySize.x, (int) ImGui::GetIO().DisplaySize.y);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
-        ImGui::Render();
+
+
+        ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
         SDL_GL_SwapWindow(g_sdlWindow);
     }

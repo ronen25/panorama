@@ -20,9 +20,9 @@
 #define PANORAMA_WINDOW_H
 
 #include "imgui.h"
-#include "imgui_impl_sdl_gl2.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl2.h"
 
-#include <GL/gl3w.h>
 #include <SDL.h>
 
 #include <string>
@@ -65,8 +65,8 @@ namespace panorama {
         // Properties
         SDL_Window *m_pRawWindow;
         int m_iWidth, m_iHeight;
-        bool m_bMaximized;
         std::string m_sTitle;
+        bool m_bMaximized;
         ImGuiWindowFlags m_eWindowFlags;
     };
 

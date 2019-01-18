@@ -23,7 +23,11 @@ using std::string;
 panorama::Window::Window(SDL_Window *pSdlWindow, std::string sTitle, int w, int h) :
         m_pRawWindow{pSdlWindow}, m_sTitle{sTitle}, m_iWidth{w}, m_iHeight{h},
         m_bMaximized{false},
-        m_eWindowFlags{ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse } { }
+        m_eWindowFlags{ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse } {
+    // If the title is empty, set it to something to avoid an assertion.
+    if (m_sTitle.empty())
+        m_sTitle = " ";
+}
 
 panorama::Window::~Window() { }
 
