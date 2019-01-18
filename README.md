@@ -11,8 +11,7 @@
   <b>Current version: 1.3.0</b>
 </p>
 
-[![Snap Status](https://build.snapcraft.io/badge/ronen25/panorama.svg)](https://build.snapcraft.io/user/ronen25/panorama)
-
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/panorama)
 -------------
 
 <p align="center">
