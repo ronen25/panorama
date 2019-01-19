@@ -1,6 +1,6 @@
 /*
- *  Panorama -  A simple system monitor for Linux, written using IMGui.
- *  Copyright (C) 2018 Ronen Lapushner
+ *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
+ *  Copyright (C) 2018-2019 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ void panorama::CPUUsage::updateData(std::future<panorama::UsageAndTimesTuple> &f
     // If we did, remove the first sample.
     // Regardless, insert the samples into each vector.
     std::vector<float> vfResults = std::move(std::get<0>(tupResult));
-    for (int i = 0; i < vfResults.size(); i++) {
+    for (std::vector<float>::size_type i = 0; i < vfResults.size(); i++) {
         m_vvfUsageSamplesPerCore[i].erase(m_vvfUsageSamplesPerCore[i].begin());
         m_vvfUsageSamplesPerCore[i].push_back(vfResults[i]);
     }
@@ -81,7 +81,7 @@ panorama::CPUUsage::sampleCpuCoreUsage_Linux(const std::string &sDataLine,
     std::vector<unsigned long> vulTimes;
     unsigned long ulIdleTime, ulTotalTime, ulIdleTimeDelta, ulTotalTimeDelta;
     float fTotalPercent = 0.0f;
-    int nCore;
+    int nCore = 0;
 
     // Read the CPU identifier and extract the number.
     // No number = core 0 = Total usage
@@ -89,12 +89,19 @@ panorama::CPUUsage::sampleCpuCoreUsage_Linux(const std::string &sDataLine,
     if (sValue.length() < 3)
         throw std::invalid_argument("Unexpected CPU identifier; length too short.");
 
-    if (sValue.length() == 4 && !std::isdigit(sValue[3]))
-        throw std::invalid_argument("Unexpected CPU identifier; last digit not numeric.");
-    else if (sValue.length() == 3)
-        nCore = 0;
-    else
-        nCore = static_cast<int>(sValue[3] - '0') + 1;
+    // Isolate the numeric component, if any.
+    std::string sCoreNum = sValue.substr(3);
+    if (sCoreNum.empty())
+        nCore = 0; // Total usage
+    else {
+        // Try to convert the identifier.
+        try {
+            nCore = std::stoi(sCoreNum) + 1;
+        }
+        catch (const std::invalid_argument &) {
+            throw std::invalid_argument("Found CPU identifier, but it\'s not numeric: " + sCoreNum);
+        }
+    }
 
     // Extract all the times
     while (sstrLine >> sValue)

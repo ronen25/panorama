@@ -1,6 +1,6 @@
 /*
- *  Panorama -  A simple system monitor for Linux, written using IMGui.
- *  Copyright (C) 2018 Ronen Lapushner
+ *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
+ *  Copyright (C) 2018-2019 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,9 +20,13 @@
 
 void panorama::AboutDialog::renderUI() {
     // Version
-    ImGui::Text("Panorama v.%s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
+    ImGui::PushFont(panorama::getFont(PANORAMA_FONT_EXTRALARGE));
+    ImGui::Text("PANORAMA");
+    ImGui::PopFont();
 
-    // Determine compiler name`
+    ImGui::Text("Version %s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
+
+    // Determine compiler name
     std::stringstream sstrCompilerVersion;
 #if     defined(__GNUC__)
     sstrCompilerVersion << "GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__;
@@ -31,18 +35,27 @@ void panorama::AboutDialog::renderUI() {
                                         << __clang_minor__ << "." << __clang_patchlevel__;
 #endif
 
-    ImGui::BulletText("Built on %s using %s.", PANORAMA_BUILD_DATE, sstrCompilerVersion.str().c_str());
-
     ImGui::Separator();
 
-    ImGui::Text("Copyright (c) Ronen Lapushner 2018.");
-
+    ImGui::Text("Copyright (c) Ronen Lapushner 2018-2019.");
     ImGui::Text("Redistributed under the GNU GPL v3+ license.");
 
     ImGui::Separator();
 
     ImGui::Columns(2, "##clmnVersions", false);
     ImGui::Separator();
+
+    // Compiler
+    ImGui::TextDisabled("Compiler");
+    ImGui::NextColumn();
+    ImGui::TextDisabled("%s", sstrCompilerVersion.str().c_str());
+    ImGui::NextColumn();
+
+    // Build Date
+    ImGui::TextDisabled("Build Date");
+    ImGui::NextColumn();
+    ImGui::TextDisabled(PANORAMA_BUILD_DATE);
+    ImGui::NextColumn();
 
     // IMGUI version
     ImGui::TextDisabled("IMGui version");
@@ -70,10 +83,4 @@ void panorama::AboutDialog::renderUI() {
     ImGui::NextColumn();
     ImGui::TextDisabled("5.0.13");
     ImGui::NextColumn();
-
-    ImGui::Separator();
-
-    // Close button
-    if (ImGui::Button("Close"))
-        ImGui::CloseCurrentPopup();
 }

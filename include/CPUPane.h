@@ -1,6 +1,6 @@
 /*
- *  Panorama -  A simple system monitor for Linux, written using IMGui.
- *  Copyright (C) 2018 Ronen Lapushner
+ *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
+ *  Copyright (C) 2018-2019 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -61,10 +61,10 @@ namespace panorama {
     private:
         // Information getters
         CPUInformation m_oCpuInfo;
+        CPUUsage m_oCpuUsage;
         const float m_fItemSpacing;
         GraphType m_eGraphType;
 
-        CPUUsage m_oCpuUsage;
         PlotColorsArray m_oColorsArray;
     };
 

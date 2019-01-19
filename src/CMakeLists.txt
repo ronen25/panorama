@@ -1,6 +1,6 @@
 #
-#  Panorama -  A simple system monitor for Linux, written using IMGui.
-#  Copyright (C) 2018 Ronen Lapushner
+#  Panorama -  A simple system monitor for Linux, written using dear ImGui.
+#  Copyright (C) 2018-2019 Ronen Lapushner
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,9 @@ set(GL3W_SRCS  ${CMAKE_SOURCE_DIR}/src/gl3w.c)
 # Set IMGUI sources
 set(IMGUI_SRCS ${CMAKE_SOURCE_DIR}/imgui/imgui.cpp
                ${CMAKE_SOURCE_DIR}/imgui/imgui_draw.cpp
-               ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_sdl_gl2.cpp)
+               ${CMAKE_SOURCE_DIR}/imgui/imgui_widgets.cpp
+               ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_opengl2.cpp
+               ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_sdl.cpp)
 
 # Set panorama sources
 set(SRCS panorama.cpp

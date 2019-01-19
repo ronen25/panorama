@@ -1,6 +1,6 @@
 /*
- *  Panorama -  A simple system monitor for Linux, written using IMGui.
- *  Copyright (C) 2018 Ronen Lapushner
+ *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
+ *  Copyright (C) 2018-2019 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,11 +26,46 @@ panorama::Sidebar::~Sidebar() { }
 void panorama::Sidebar::renderUI() {
     // Determine scaling
     const char *cstrScaling = std::getenv("PANORAMA_SCALING");
-    if (cstrScaling != nullptr && std::stof(cstrScaling) > 1.0)
+    if (cstrScaling != nullptr && std::stof(cstrScaling) > 1.0f)
         m_fWidth = ImGui::CalcTextSize("PROCESSES").x + 30;
 
     const ImVec2 v2ButtonSize = ImVec2(m_fWidth, m_fWidth / 2);
-    static bool bIsAboutOpen = true;
+    static bool bIsAboutOpen = false;
+    static bool bIsSettingsOpen = false;
+
+    ImGui::BeginChild("##sidebar");
+
+    // Theme selections
+    //ImGui::Text("Theme:");
+    //ImGui::SameLine();
+
+    const float fIconWidth = ImGui::CalcTextSize(ICON_FA_MOON).x;
+    // Theme selections
+    if (ImGui::Selectable(ICON_FA_SUN, (panorama::theme() == panorama::Theme::PANORAMA_THEME_LIGHT),
+                          0, ImVec2(fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing()))) {
+
+        panorama::setTheme(panorama::Theme::PANORAMA_THEME_LIGHT);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Light (default)");
+        ImGui::EndTooltip();
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Selectable(ICON_FA_MOON, (panorama::theme() == panorama::Theme::PANORAMA_THEME_DARK),
+                                         0, ImVec2(fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing()))) {
+            panorama::setTheme(panorama::Theme::PANORAMA_THEME_DARK);
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Dark");
+        ImGui::EndTooltip();
+    }
+
+    // Spacing
+    ImGui::Separator();
 
     // CPU Pane button
     if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
@@ -48,10 +83,11 @@ void panorama::Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    const float fAvailSpace = ImGui::GetContentRegionAvail().y - 3 * ImGui::GetItemsLineHeightWithSpacing();
+    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetItemsLineHeightWithSpacing();
     ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
 
     // Theme submenu
+    /*
     if (ImGui::BeginMenu("Theme")) {
         if (ImGui::MenuItem("Light (default)",
                             nullptr,
@@ -73,6 +109,7 @@ void panorama::Sidebar::renderUI() {
 
         ImGui::EndMenu();
     }
+    */
 
     // Spacing
     ImGui::Spacing();
@@ -91,9 +128,19 @@ void panorama::Sidebar::renderUI() {
         SDL_PushEvent(&event);
     }
 
+    // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
         AboutDialog::renderUI();
 
         ImGui::EndPopup();
     }
+
+    // Render settings window?
+    if (ImGui::BeginPopupModal("Settings", &bIsSettingsOpen, ImGuiWindowFlags_NoResize)) {
+        // TODO: Render settings window
+
+        ImGui::EndPopup();
+    }
+
+    ImGui::EndChild();
 }
