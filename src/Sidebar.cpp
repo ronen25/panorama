@@ -26,21 +26,23 @@ panorama::Sidebar::~Sidebar() { }
 void panorama::Sidebar::renderUI() {
     // Determine scaling
     const char *cstrScaling = std::getenv("PANORAMA_SCALING");
-    if (cstrScaling != nullptr && std::stof(cstrScaling) > 1.0)
+    if (cstrScaling != nullptr && std::stof(cstrScaling) > 1.0f)
         m_fWidth = ImGui::CalcTextSize("PROCESSES").x + 30;
 
     const ImVec2 v2ButtonSize = ImVec2(m_fWidth, m_fWidth / 2);
     static bool bIsAboutOpen = false;
     static bool bIsSettingsOpen = false;
 
+    ImGui::BeginChild("##sidebar");
+
     // Theme selections
-    ImGui::Text("Theme:");
-    ImGui::SameLine();
+    //ImGui::Text("Theme:");
+    //ImGui::SameLine();
 
     const float fIconWidth = ImGui::CalcTextSize(ICON_FA_MOON).x;
     // Theme selections
     if (ImGui::Selectable(ICON_FA_SUN, (panorama::theme() == panorama::Theme::PANORAMA_THEME_LIGHT),
-                          0, ImVec2 { fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing() })) {
+                          0, ImVec2(fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing()))) {
 
         panorama::setTheme(panorama::Theme::PANORAMA_THEME_LIGHT);
     }
@@ -53,7 +55,7 @@ void panorama::Sidebar::renderUI() {
     ImGui::SameLine();
 
     if (ImGui::Selectable(ICON_FA_MOON, (panorama::theme() == panorama::Theme::PANORAMA_THEME_DARK),
-                                         0, ImVec2 { fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing() })) {
+                                         0, ImVec2(fIconWidth + (fIconWidth * 0.2f), ImGui::GetItemsLineHeightWithSpacing()))) {
             panorama::setTheme(panorama::Theme::PANORAMA_THEME_DARK);
     }
     if (ImGui::IsItemHovered()) {
@@ -63,7 +65,7 @@ void panorama::Sidebar::renderUI() {
     }
 
     // Spacing
-    ImGui::Spacing();
+    ImGui::Separator();
 
     // CPU Pane button
     if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
@@ -139,4 +141,6 @@ void panorama::Sidebar::renderUI() {
 
         ImGui::EndPopup();
     }
+
+    ImGui::EndChild();
 }
