@@ -19,7 +19,7 @@
 #include "MemoryInfoPane.h"
 
 panorama::MemoryInfoPane::MemoryInfoPane()
-        : m_eUnitScale{MeasurementScale::MEASUREMENT_SCALE_BINARY}, m_eUnit{MeasurementUnit::UNIT_GIB} { }
+        : m_eUnit{MeasurementUnit::UNIT_GIB}, m_eUnitScale{MeasurementScale::MEASUREMENT_SCALE_BINARY}  { }
 
 panorama::MemoryInfoPane::~MemoryInfoPane() { }
 
@@ -53,7 +53,8 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::TextDisabled("Total RAM:");
     ImGui::SameLine();
 
-    ImGui::Text("%.2f %s", MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulTotalRam, m_eUnit),
+    ImGui::Text("%.2f %s",
+                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulTotalRam, m_eUnit)),
                 sUnitString.c_str());
 
     ImGui::PopFont();
@@ -64,10 +65,10 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::TextDisabled("Free: ");
     ImGui::SameLine();
     ImGui::Text("%.2f %s (%.2f%%)",
-                MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulAvailRam, m_eUnit),
+                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulAvailRam, m_eUnit)),
                 sUnitString.c_str(),
-                (static_cast<float>(m_oMemInfo.data().ulAvailRam) /
-                 static_cast<float>(m_oMemInfo.data().ulTotalRam)) * 100);
+                (static_cast<double>(m_oMemInfo.data().ulAvailRam) /
+                 static_cast<double>(m_oMemInfo.data().ulTotalRam)) * 100);
 
     ImGui::Separator();
 
@@ -90,7 +91,7 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::SameLine();
 
     ImGui::Text("%.2f %s",
-                MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulTotalSwap, m_eUnit),
+                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulTotalSwap, m_eUnit)),
                 sUnitString.c_str());
 
     ImGui::PopFont();
@@ -101,7 +102,7 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::TextDisabled("Free: ");
     ImGui::SameLine();
     ImGui::Text("%.2f %s",
-                MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulFreeSwap, m_eUnit),
+                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulFreeSwap, m_eUnit)),
                 sUnitString.c_str());
 
     ImGui::Separator();

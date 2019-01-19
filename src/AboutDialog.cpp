@@ -48,7 +48,7 @@ void panorama::AboutDialog::renderUI() {
     // Compiler
     ImGui::TextDisabled("Compiler");
     ImGui::NextColumn();
-    ImGui::TextDisabled(sstrCompilerVersion.str().c_str());
+    ImGui::TextDisabled("%s", sstrCompilerVersion.str().c_str());
     ImGui::NextColumn();
 
     // Build Date

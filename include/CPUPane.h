@@ -61,10 +61,10 @@ namespace panorama {
     private:
         // Information getters
         CPUInformation m_oCpuInfo;
+        CPUUsage m_oCpuUsage;
         const float m_fItemSpacing;
         GraphType m_eGraphType;
 
-        CPUUsage m_oCpuUsage;
         PlotColorsArray m_oColorsArray;
     };
 

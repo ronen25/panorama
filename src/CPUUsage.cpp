@@ -54,7 +54,7 @@ void panorama::CPUUsage::updateData(std::future<panorama::UsageAndTimesTuple> &f
     // If we did, remove the first sample.
     // Regardless, insert the samples into each vector.
     std::vector<float> vfResults = std::move(std::get<0>(tupResult));
-    for (int i = 0; i < vfResults.size(); i++) {
+    for (std::vector<float>::size_type i = 0; i < vfResults.size(); i++) {
         m_vvfUsageSamplesPerCore[i].erase(m_vvfUsageSamplesPerCore[i].begin());
         m_vvfUsageSamplesPerCore[i].push_back(vfResults[i]);
     }
