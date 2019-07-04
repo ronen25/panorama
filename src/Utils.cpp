@@ -90,3 +90,11 @@ void panorama::guiutils::drawBackgroundTextOnGraph(ImFont *fntTextFont,
 
     ImGui::PopFont();
 }
+
+float panorama::guiutils::getScalingFactor() {
+    const char *cstrScaling = std::getenv("PANORAMA_SCALING");
+    if (cstrScaling != nullptr)
+        return std::stof(cstrScaling);
+
+    return 1.0f; // Default scaling
+}
