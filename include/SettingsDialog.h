@@ -16,54 +16,21 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PANORAMA_SIDEBAR_H
-#define PANORAMA_SIDEBAR_H
-
-#include <SDL.h>
-
-#include <cstdlib>
+#ifndef PANORAMA_SETTINGSDIALOG_H
+#define PANORAMA_SETTINGSDIALOG_H
 
 #include "imgui.h"
+#include "config.h"
 
-#include "AboutDialog.h"
-#include "SettingsDialog.h"
-#include "Globals.h"
-#include "FontDefinitions.h"
+#include "MemoryUnits.h"
 #include "Theming.h"
-#include "Utils.h"
-
-#define ITEMS_AT_BOTTOM 3
 
 namespace panorama {
 
-    // Enums
-    enum PaneType {
-        PANETYPE_CPU,
-        PANETYPE_PROCESSES,
-        PANETYPE_MEMORY
-    };
-
-    class Sidebar {
+    class SettingsDialog {
     public:
-        // Cnstr.
-        Sidebar(float fWidth);
-
-        // Dstr.
-        ~Sidebar();
-
-        // Methods
-        void renderUI();
-
-        // Getters
-        inline float width() const { return m_fWidth; }
-        inline PaneType currentlyVisiblePane() const { return m_eCurrentlyVisiblePane; }
-
-    private:
-        // Properties
-        float m_fWidth;
-        PaneType m_eCurrentlyVisiblePane;
+        static void renderUI();
     };
-
 }
 
-#endif //PANORAMA_SIDEBAR_H
+#endif /* PANORAMA_SETTINGSDIALOG_H */

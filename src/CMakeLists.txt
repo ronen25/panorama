@@ -36,6 +36,7 @@ set(SRCS panorama.cpp
          Sidebar.cpp
          CPUPane.cpp
          AboutDialog.cpp
+         SettingsDialog.cpp
          ProcessListPane.cpp
          ProcessUtils.cpp
          MemoryInfo.cpp
