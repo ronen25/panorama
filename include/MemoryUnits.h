@@ -69,6 +69,8 @@ namespace panorama {
                 case MeasurementUnit::UNIT_TIB:
                     return "TiB";
             }
+
+            return "Unknown";
         }
     };
 }
