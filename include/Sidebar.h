@@ -26,13 +26,12 @@
 #include "imgui.h"
 
 #include "AboutDialog.h"
-#include "SettingsDialog.h"
 #include "Globals.h"
 #include "FontDefinitions.h"
 #include "Theming.h"
 #include "Utils.h"
 
-#define ITEMS_AT_BOTTOM 3
+#define ITEMS_AT_BOTTOM 2
 
 namespace panorama {
 

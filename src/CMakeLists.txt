@@ -26,6 +26,9 @@ set(IMGUI_SRCS ${CMAKE_SOURCE_DIR}/imgui/imgui.cpp
                ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_opengl2.cpp
                ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_sdl.cpp)
 
+# Set INIH sources
+set(INIH_SRCS ${CMAKE_SOURCE_DIR}/extern/inih.c)
+
 # Set panorama sources
 set(SRCS panorama.cpp
          CPUInformation.cpp
@@ -36,7 +39,6 @@ set(SRCS panorama.cpp
          Sidebar.cpp
          CPUPane.cpp
          AboutDialog.cpp
-         SettingsDialog.cpp
          ProcessListPane.cpp
          ProcessUtils.cpp
          MemoryInfo.cpp
@@ -55,9 +57,9 @@ add_executable(panorama ${GL3W_SRCS}
                         ${SRCS})
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-target_include_directories(panorama PRIVATE ${CMAKE_SOURCE_DIR}/imgui
+target_include_directories(panorama PRIVATE 
+        ${CMAKE_SOURCE_DIR}/imgui
         ${CMAKE_SOURCE_DIR}/gl3w
-        ${CMAKE_SOURCE_DIR}/gui
         ${CMAKE_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/include
         ${SDL2_INCLUDE_DIRS})

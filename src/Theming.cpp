@@ -18,10 +18,12 @@
 
 #include "Theming.h"
 
-// Global variable that controls the theme
-panorama::Theme g_Theme;
+using namespace panorama;
 
-panorama::Theme panorama::theme() {
+// Global variable that controls the theme
+Theme g_Theme;
+
+Theme panorama::theme() {
     return g_Theme;
 }
 

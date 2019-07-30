@@ -53,12 +53,6 @@ void panorama::Sidebar::renderUI() {
     const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetItemsLineHeightWithSpacing();
     ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
 
-    // Settings
-    if (ImGui::Selectable("Settings...")) {
-        bIsSettingsOpen = true;
-        ImGui::OpenPopup("Settings");
-    }
-
     // Spacing
     ImGui::Spacing();
 
@@ -79,12 +73,6 @@ void panorama::Sidebar::renderUI() {
     // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
         AboutDialog::renderUI();
-        ImGui::EndPopup();
-    }
-
-    // Render settings window?
-    if (ImGui::BeginPopupModal("Settings", &bIsSettingsOpen, ImGuiWindowFlags_NoResize)) {
-        SettingsDialog::renderUI();
         ImGui::EndPopup();
     }
 
