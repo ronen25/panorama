@@ -29,6 +29,7 @@
 #include "Globals.h"
 #include "FontDefinitions.h"
 #include "Theming.h"
+#include "Utils.h"
 
 #define ITEMS_AT_BOTTOM 2
 

@@ -51,6 +51,8 @@ namespace panorama {
     namespace guiutils {
         void drawBackgroundTextOnGraph(ImFont *fntTextFont, const ImVec2 &v2GraphSize,
                                        const std::string &sDrawnString, float fTextAlpha);
+
+        float getScalingFactor();
     }
 }
 

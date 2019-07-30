@@ -97,10 +97,12 @@ int initApplication() {
     SDL_GetCurrentDisplayMode(0, &current);
 
     // If we have the PANORAMA_SCALING environment variable, we're gonna scale all fonts by it.
+    // A bit of a double check here, but we need this to verify the scaling, since the utility
+    // function does not check for errors.
     const char * cstrScalingModifier;
     if ((cstrScalingModifier = std::getenv("PANORAMA_SCALING")) != nullptr) {
         try {
-            g_fFontScaling = std::stof(std::string(cstrScalingModifier));
+            g_fFontScaling = panorama::guiutils::getScalingFactor();
         }
         catch (const std::invalid_argument &ex) {
             std::cerr << "Error getting scale from PANORAMA_SCALING, using 1 as default." << std::endl;

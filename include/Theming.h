@@ -34,7 +34,7 @@ namespace panorama {
 
     Theme theme();
     void setTheme(Theme eNewTheme);
-}
+}  
 
 extern panorama::Theme g_Theme;
 
