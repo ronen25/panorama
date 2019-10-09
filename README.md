@@ -15,7 +15,7 @@
 -------------
 
 <p align="center">
-  <img src="https://github.com/ronen25/panorama/blob/master/images/screenshot.png">
+  <img src="https://github.com/ronen25/panorama/blob/master/screenshots/screenshot.png">
 </p>
 
 -------------
