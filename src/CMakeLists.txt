@@ -1,6 +1,6 @@
 #
 #  Panorama -  A simple system monitor for Linux, written using dear ImGui.
-#  Copyright (C) 2018-2019 Ronen Lapushner
+#  Copyright (C) 2018-2021 Ronen Lapushner
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,15 +16,16 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Set gl3w sources
-set(GL3W_SRCS  ${CMAKE_SOURCE_DIR}/src/gl3w.c)
+# imgui directory
+SET(IMGUI_DIR ${CMAKE_SOURCE_DIR}/imgui)
 
 # Set IMGUI sources
-set(IMGUI_SRCS ${CMAKE_SOURCE_DIR}/imgui/imgui.cpp
-               ${CMAKE_SOURCE_DIR}/imgui/imgui_draw.cpp
-               ${CMAKE_SOURCE_DIR}/imgui/imgui_widgets.cpp
-               ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_opengl2.cpp
-               ${CMAKE_SOURCE_DIR}/imgui/imgui_impl_sdl.cpp)
+set(IMGUI_SRCS ${IMGUI_DIR}/imgui.cpp
+               ${IMGUI_DIR}/imgui_draw.cpp
+               ${IMGUI_DIR}/imgui_widgets.cpp
+               ${IMGUI_DIR}/imgui_tables.cpp
+               ${IMGUI_DIR}/backends/imgui_impl_opengl2.cpp
+               ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp)
 
 # Set INIH sources
 set(INIH_SRCS ${CMAKE_SOURCE_DIR}/extern/inih.c)
@@ -59,15 +60,19 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 target_include_directories(panorama PRIVATE 
         ${CMAKE_SOURCE_DIR}/imgui
-        ${CMAKE_SOURCE_DIR}/gl3w
+        ${CMAKE_SOURCE_DIR}/imgui/backends
         ${CMAKE_BINARY_DIR}
-        ${CMAKE_SOURCE_DIR}/include
-        ${SDL2_INCLUDE_DIRS})
+        ${CMAKE_SOURCE_DIR}/include)
 
-target_link_libraries(panorama Threads::Threads ${OPENGL_LIBRARIES} dl SDL2 cap)
+target_link_libraries(panorama Threads::Threads ${OPENGL_LIBRARIES} dl glfw cap)
 
 # Installation
 install(TARGETS panorama DESTINATION bin)
-install(FILES "${CMAKE_SOURCE_DIR}/fonts/DroidSans.ttf" DESTINATION bin)
-install(FILES "${CMAKE_SOURCE_DIR}/fonts/fa-solid-900.ttf" DESTINATION bin)
+install(FILES ${CMAKE_SOURCE_DIR}/fonts/DroidSans.ttf DESTINATION bin)
+install(FILES ${CMAKE_SOURCE_DIR}/fonts/fa-solid-900.ttf DESTINATION bin)
 install(FILES ${CMAKE_SOURCE_DIR}/images/panorama.svg DESTINATION bin)
+
+# Copy the fonts post-build to the build directory
+FILE(COPY ${CMAKE_SOURCE_DIR}/fonts/DroidSans.ttf DESTINATION ${CMAKE_BINARY_DIR})
+FILE(COPY ${CMAKE_SOURCE_DIR}/fonts/fa-solid-900.ttf DESTINATION ${CMAKE_BINARY_DIR})
+FILE(COPY ${CMAKE_SOURCE_DIR}/images/panorama.svg DESTINATION ${CMAKE_BINARY_DIR})

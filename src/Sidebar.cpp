@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ void panorama::Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetItemsLineHeightWithSpacing();
+    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetTextLineHeightWithSpacing();
     ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
 
     // Spacing
@@ -63,12 +63,14 @@ void panorama::Sidebar::renderUI() {
     }
 
     // Exit
+    /*
     if (ImGui::Selectable("Exit")) {
         SDL_Event event;
         event.type = SDL_QUIT;
 
         SDL_PushEvent(&event);
     }
+     */
 
     // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {

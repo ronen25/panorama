@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,10 +19,8 @@
 #include "Globals.h"
 
 #include "imgui.h"
-#include "imgui_impl_sdl.h"
+#include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
-#include <SDL.h>
-#include <SDL_opengl.h>
 
 #include <iostream>
 #include <string>
@@ -30,16 +28,32 @@
 #include <unistd.h>
 #include <wordexp.h>
 
+#include <GLFW/glfw3.h>
+
 #include "MainWindow.h"
 #include "IconsFontAwesome5.h"
 
-#define MAIN_WINDOW_WIDTH 1280
-#define MAIN_WINDOW_HEIGHT 720
-
 // Global variables
-SDL_Window *g_sdlWindow;
-SDL_GLContext g_glContext;
+GLFWwindow *g_glfwWindow;
 float g_fFontScaling = 1.0f;
+
+using std::cerr;
+using std::endl;
+
+constexpr int MAIN_WINDOW_WIDTH = 1280;
+constexpr int MAIN_WINDOW_HEIGHT = 720;
+
+static void glfw_error_callback(int error, const char *description) {
+    cerr << description << " (" << error << ")" << endl;
+}
+
+static bool initGLFW() {
+    glfwSetErrorCallback(glfw_error_callback);
+    if (!glfwInit())
+        return false;
+
+    return true;
+}
 
 void loadFonts(ImGuiIO &io) {
     // Load default font
@@ -64,15 +78,15 @@ void loadFonts(ImGuiIO &io) {
                                              &icons_config, icons_ranges);
             }
             else
-                std::cerr << "Error: Could not find font " << sFontAwesomePath <<
-                          ", no icons will be displayed!" << std::endl;
+                cerr << "Error: Could not find font " << sFontAwesomePath <<
+                        ", no icons will be displayed!" << endl;
         }
 
         io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_TITLE * g_fFontScaling);
         io.Fonts->AddFontFromFileTTF(sFontPath.c_str(), PANORAMA_FONT_SIZE_EXTRALARGE * g_fFontScaling);
     }
     else {
-        std::cerr << "Error: Could not find font " << sFontPath << ", using fallback!" << std::endl;
+        cerr << "Error: Could not find font " << sFontPath << ", using fallback!" << endl;
 
         // Fallback to default font
         for (int i = 0; i < 3; i++)
@@ -81,46 +95,37 @@ void loadFonts(ImGuiIO &io) {
 }
 
 int initApplication() {
-    // Setup SDL
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-        std::cerr << "SDL initialization error: " << SDL_GetError()  << std::endl;
-        return -1;
+    // Setup GLFW
+    if (!initGLFW()) {
+        return EXIT_FAILURE;
     }
-
-    // Setup window
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_DisplayMode current;
-    SDL_GetCurrentDisplayMode(0, &current);
 
     // If we have the PANORAMA_SCALING environment variable, we're gonna scale all fonts by it.
     // A bit of a double check here, but we need this to verify the scaling, since the utility
     // function does not check for errors.
-    const char * cstrScalingModifier;
+    const char *cstrScalingModifier;
     if ((cstrScalingModifier = std::getenv("PANORAMA_SCALING")) != nullptr) {
         try {
             g_fFontScaling = panorama::guiutils::getScalingFactor();
         }
         catch (const std::invalid_argument &ex) {
-            std::cerr << "Error getting scale from PANORAMA_SCALING, using 1 as default." << std::endl;
+            cerr << "Error getting scale from PANORAMA_SCALING, using 1 as default." << endl;
         }
     }
 
-    // Create SDL window
     std::string sTitle = "Panorama v." PANORAMA_VERSION;
     if (panorama::utils::isRunningInPrivilagedMode())
         sTitle += " (Privileged)";
 
-    g_sdlWindow = SDL_CreateWindow(sTitle.c_str(),
-                                   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                   MAIN_WINDOW_WIDTH * g_fFontScaling, MAIN_WINDOW_HEIGHT * g_fFontScaling,
-                                   SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    // Create window
+    g_glfwWindow = glfwCreateWindow(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT, sTitle.c_str(), nullptr, nullptr);
+    if (!g_glfwWindow) {
+        cerr << "Error creating GLFW window." << endl;
+        return EXIT_FAILURE;
+    }
 
-    g_glContext = SDL_GL_CreateContext(g_sdlWindow);
-    SDL_GL_SetSwapInterval(1); // Enable vsync
+    glfwMakeContextCurrent(g_glfwWindow);
+    glfwSwapInterval(1);
 
     // Setup ImGui binding
     IMGUI_CHECKVERSION();
@@ -128,17 +133,11 @@ int initApplication() {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
     // Initialize ImGui
-    ImGui_ImplSDL2_InitForOpenGL(g_sdlWindow, g_glContext);
+    ImGui_ImplGlfw_InitForOpenGL(g_glfwWindow, true);
     ImGui_ImplOpenGL2_Init();
-
-    // Enable keyboard navigation
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
     // Load fonts
     loadFonts(io);
-
-    // Setup style
-    ImGui::StyleColorsLight();
 
     return 0;
 }
@@ -146,45 +145,35 @@ int initApplication() {
 void destroyApplication() {
     // Cleanup
     ImGui_ImplOpenGL2_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    SDL_GL_DeleteContext(g_glContext);
-    SDL_DestroyWindow(g_sdlWindow);
-    SDL_Quit();
+    glfwDestroyWindow(g_glfwWindow);
+    glfwTerminate();
 }
 
 int main(int argc, char **argv) {
+    const ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
     // Init application
     int iInitResult = initApplication();
     if (iInitResult != 0)
         return iInitResult;
 
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
     // Init main window
-    panorama::MainWindow wndMain(g_sdlWindow, "", MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
+    panorama::MainWindow wndMain(g_glfwWindow, "", MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
     wndMain.setWindowFlags(ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
     wndMain.setMaximized(true);
 
+    // Setup style
+    ImGui::StyleColorsLight();
+
     // Main loop
-    bool done = false;
-    while (!done) {
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-        SDL_Event event;
-
-        while (SDL_PollEvent(&event)) {
-            ImGui_ImplSDL2_ProcessEvent(&event);
-
-            if (event.type == SDL_QUIT)
-                done = true;
-        }
+    while (!glfwWindowShouldClose(g_glfwWindow)) {
+        glfwPollEvents();
 
         ImGui_ImplOpenGL2_NewFrame();
-        ImGui_ImplSDL2_NewFrame(g_sdlWindow);
+        ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
         // Render main window
@@ -192,14 +181,16 @@ int main(int argc, char **argv) {
 
         // Rendering
         ImGui::Render();
-        glViewport(0, 0, (int) ImGui::GetIO().DisplaySize.x, (int) ImGui::GetIO().DisplaySize.y);
+        int display_w, display_h;
+        glfwGetFramebufferSize(g_glfwWindow, &display_w, &display_h);
+        glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
 
-
         ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
-        SDL_GL_SwapWindow(g_sdlWindow);
+        glfwMakeContextCurrent(g_glfwWindow);
+        glfwSwapBuffers(g_glfwWindow);
     }
 
     destroyApplication();

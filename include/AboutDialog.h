@@ -27,7 +27,7 @@
 
 #include "FontDefinitions.h"
 
-#include <SDL.h>
+#include <GLFW/glfw3.h>
 
 namespace panorama {
 

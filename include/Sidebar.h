@@ -19,7 +19,7 @@
 #ifndef PANORAMA_SIDEBAR_H
 #define PANORAMA_SIDEBAR_H
 
-#include <SDL.h>
+#include <GLFW/glfw3.h>
 
 #include <cstdlib>
 

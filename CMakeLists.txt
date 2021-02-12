@@ -1,6 +1,6 @@
 #
 #  Panorama -  A simple system monitor for Linux, written using dear ImGui.
-#  Copyright (C) 2018-2019 Ronen Lapushner
+#  Copyright (C) 2018-2021 Ronen Lapushner
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ project(panorama)
 # Set module include path
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-# Includes
 include(FindOpenGL)
 include(FindThreads)
 include(GeneratePanoramaVersion)
@@ -38,14 +37,9 @@ set(PANORAMA_PLATFORM ${CMAKE_SYSTEM_NAME})
 set(CMAKE_CXX_STANDARD 14)
 
 # Find dependencies
-find_package(OpenGL  REQUIRED)
-find_package(SDL2    REQUIRED)
-find_package(Threads REQUIRED)
-
-# Generate GL3W headers using the provided script
-message("Downloading gl3w sources into Panorama source tree...")
-execute_process(COMMAND "python" "${CMAKE_SOURCE_DIR}/gl3w/gl3w_gen.py" "--ext" "--root=.."
-                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/gl3w")
+find_package(OpenGL    REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
+find_package(Threads   REQUIRED)
 
 # Uninstall target
 configure_file(

@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 
 using std::string;
 
-panorama::MainWindow::MainWindow(SDL_Window *pSdlWindow,
-                                const std::string &sTitle, int w, int h) : Window(pSdlWindow, sTitle, w, h),
+panorama::MainWindow::MainWindow(GLFWwindow *glfwWindow,
+                                const std::string &sTitle, int w, int h) : Window(glfwWindow, sTitle, w, h),
         m_eMeasurementUnits{MeasurementUnits::MEASUREMENT_UNITS_BINARY},
         m_oSidebar{w * 0.1f}, m_oCpuPane{ },
         m_oProcessListPane{ }, m_oMemInfoPane{ } { }

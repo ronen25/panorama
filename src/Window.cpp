@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 
 using std::string;
 
-panorama::Window::Window(SDL_Window *pSdlWindow, std::string sTitle, int w, int h) :
-        m_pRawWindow{pSdlWindow}, m_sTitle{sTitle}, m_iWidth{w}, m_iHeight{h},
+panorama::Window::Window(GLFWwindow *glfwWindow, std::string sTitle, int w, int h) :
+        m_pRawWindow{glfwWindow}, m_sTitle{sTitle}, m_iWidth{w}, m_iHeight{h},
         m_bMaximized{false},
         m_eWindowFlags{ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse } {
     // If the title is empty, set it to something to avoid an assertion.
@@ -80,7 +80,8 @@ void panorama::Window::render() {
         int iWidth, iHeight;
 
         // Get main SDL window's size
-        SDL_GetWindowSize(m_pRawWindow, &iWidth, &iHeight);
+        // FIXME
+        //SDL_GetWindowSize(m_pRawWindow, &iWidth, &iHeight);
         m_iWidth = iWidth;
         m_iHeight = iHeight;
 

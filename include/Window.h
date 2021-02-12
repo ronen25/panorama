@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,16 +23,15 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl2.h"
 
-#include <SDL.h>
-
 #include <string>
-#include <imgui_internal.h>
+
+#include <GLFW/glfw3.h>
 
 namespace panorama {
     class Window {
     public:
         // Cnstr.
-        Window(SDL_Window *pSdlWindow, std::string sTitle, int w, int h);
+        Window(GLFWwindow *glfwWindow, std::string sTitle, int w, int h);
 
         // Dstr.
         virtual ~Window();
@@ -63,7 +62,7 @@ namespace panorama {
         virtual void renderUI() = 0;
 
         // Properties
-        SDL_Window *m_pRawWindow;
+        GLFWwindow *m_pRawWindow;
         int m_iWidth, m_iHeight;
         std::string m_sTitle;
         bool m_bMaximized;

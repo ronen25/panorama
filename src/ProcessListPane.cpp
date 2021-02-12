@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -100,7 +100,7 @@ void panorama::ProcessListPane::renderUI() {
     ImGui::Separator();
 
     ImGui::BeginChild("##clmnprocesses_childframe",
-                      ImVec2(0, ImGui::GetContentRegionAvail().y - ImGui::GetItemsLineHeightWithSpacing()));
+                      ImVec2(0, ImGui::GetContentRegionAvail().y - ImGui::GetTextLineHeightWithSpacing()));
 
     ImGui::Columns(6, "##clmnsprocesses", true);
     ImGui::Separator();
