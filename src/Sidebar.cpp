@@ -63,14 +63,9 @@ void panorama::Sidebar::renderUI() {
     }
 
     // Exit
-    /*
     if (ImGui::Selectable("Exit")) {
-        SDL_Event event;
-        event.type = SDL_QUIT;
-
-        SDL_PushEvent(&event);
+        glfwSetWindowShouldClose(g_glfwWindow, 1);
     }
-     */
 
     // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {

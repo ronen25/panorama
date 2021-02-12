@@ -23,6 +23,7 @@
 
 #include "imgui.h"
 
+extern GLFWwindow *g_glfwWindow;
 extern float g_fFontScaling;
 
 #endif //PANORAMA_GLOBALS_H
