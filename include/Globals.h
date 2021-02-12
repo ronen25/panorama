@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,12 +19,10 @@
 #ifndef PANORAMA_GLOBALS_H
 #define PANORAMA_GLOBALS_H
 
-#include <SDL.h>
+#include <GLFW/glfw3.h>
 
 #include "imgui.h"
 
-extern SDL_Window *g_sdlWindow;
-extern SDL_GLContext g_glContext;
 extern float g_fFontScaling;
 
 #endif //PANORAMA_GLOBALS_H
