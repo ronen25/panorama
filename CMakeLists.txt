@@ -22,6 +22,7 @@ project(panorama)
 # Set module include path
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+set(OpenGL_GL_PREFERENCE "GLVND")
 include(FindOpenGL)
 include(FindThreads)
 include(GeneratePanoramaVersion)
