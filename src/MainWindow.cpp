@@ -21,7 +21,7 @@
 using std::string;
 
 panorama::MainWindow::MainWindow(GLFWwindow *glfwWindow,
-                                const std::string &sTitle, int w, int h) : Window(glfwWindow, sTitle, w, h),
+                                const std::string &sTitle, int w, int h) :
         m_eMeasurementUnits{MeasurementUnits::MEASUREMENT_UNITS_BINARY},
         m_oSidebar{w * 0.1f}, m_oCpuPane{ },
         m_oProcessListPane{ }, m_oMemInfoPane{ } { }

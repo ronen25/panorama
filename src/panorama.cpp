@@ -130,7 +130,8 @@ int initApplication() {
     // Setup ImGui binding
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
+
 
     // Initialize ImGui
     ImGui_ImplGlfw_InitForOpenGL(g_glfwWindow, true);
@@ -162,8 +163,7 @@ int main(int argc, char **argv) {
 
     // Init main window
     panorama::MainWindow wndMain(g_glfwWindow, "", MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-    wndMain.setWindowFlags(ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse);
-    wndMain.setMaximized(true);
+
 
     // Setup style
     ImGui::StyleColorsLight();
@@ -174,10 +174,11 @@ int main(int argc, char **argv) {
 
         ImGui_ImplOpenGL2_NewFrame();
         ImGui_ImplGlfw_NewFrame();
+
         ImGui::NewFrame();
 
         // Render main window
-        wndMain.render();
+        wndMain.renderUI();
 
         // Rendering
         ImGui::Render();

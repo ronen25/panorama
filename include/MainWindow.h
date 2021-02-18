@@ -31,7 +31,6 @@
 #include <GLFW/glfw3.h>
 
 #include "config.h"
-#include "Window.h"
 #include "FontDefinitions.h"
 
 #include "Sidebar.h"
@@ -43,7 +42,7 @@
 #include "PlotColorsArray.h"
 
 namespace panorama {
-    class MainWindow final : public Window {
+    class MainWindow final {
     public:
         // Cnstr.
         MainWindow(GLFWwindow *glfwWindow, const std::string &sTitle, int w, int h);
@@ -51,15 +50,14 @@ namespace panorama {
         // Dstr.
         ~MainWindow();
 
-    private:
+        // Overridden methods
+        void renderUI();
 
+    private:
         enum MeasurementUnits {
             MEASUREMENT_UNITS_SI,
             MEASUREMENT_UNITS_BINARY
         };
-
-        // Overridden methods
-        void renderUI() override;
 
         // Properties
         MeasurementUnits m_eMeasurementUnits;
@@ -73,8 +71,8 @@ namespace panorama {
         MemoryInfoPane m_oMemInfoPane;
 
         // Typedefs for std::chrono
-        typedef std::chrono::steady_clock clock_t;
-        typedef std::chrono::duration<float, std::milli> milli_t;
+        using clock_t = std::chrono::steady_clock;
+        using milli_t = std::chrono::duration<float, std::milli>;
     };
 }
 

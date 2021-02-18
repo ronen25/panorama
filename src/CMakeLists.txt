@@ -27,9 +27,6 @@ set(IMGUI_SRCS ${IMGUI_DIR}/imgui.cpp
                ${IMGUI_DIR}/backends/imgui_impl_opengl2.cpp
                ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp)
 
-# Set INIH sources
-set(INIH_SRCS ${CMAKE_SOURCE_DIR}/extern/inih.c)
-
 # Set panorama sources
 set(SRCS panorama.cpp
          CPUInformation.cpp
@@ -44,8 +41,7 @@ set(SRCS panorama.cpp
          ProcessUtils.cpp
          MemoryInfo.cpp
          MemoryInfoPane.cpp
-         Window.cpp
-         MainWindow.cpp
+        MainWindow.cpp
          Theming.cpp)
 
 # Create the configuration file
