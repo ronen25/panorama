@@ -20,6 +20,8 @@
 
 using std::string;
 
+using namespace panorama;
+
 panorama::MainWindow::MainWindow(GLFWwindow *glfwWindow,
                                 const std::string &sTitle, int w, int h) :
         m_eMeasurementUnits{MeasurementUnits::MEASUREMENT_UNITS_BINARY},
@@ -107,6 +109,25 @@ void panorama::MainWindow::renderUI() {
         }
 
         if (ImGui::BeginMenu("View")) {
+            if (ImGui::BeginMenu("Theme")) {
+                if (ImGui::MenuItem("Light (Default)", nullptr,
+                                    ThemeManager::isThemeSet(Theme::PANORAMA_THEME_LIGHT))) {
+                    ThemeManager::setTheme(Theme::PANORAMA_THEME_LIGHT);
+                }
+
+                if (ImGui::MenuItem("Dark", nullptr,
+                                    ThemeManager::isThemeSet(Theme::PANORAMA_THEME_DARK))) {
+                    ThemeManager::setTheme(Theme::PANORAMA_THEME_DARK);
+                }
+
+                if (ImGui::MenuItem("imgui Classic", nullptr,
+                                    ThemeManager::isThemeSet(Theme::PANORAMA_THEME_CLASSIC))) {
+                    ThemeManager::setTheme(Theme::PANORAMA_THEME_CLASSIC);
+                }
+
+                ImGui::EndMenu();
+            }
+
             ImGui::EndMenu();
         }
 
