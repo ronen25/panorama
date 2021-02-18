@@ -19,16 +19,6 @@
 #ifndef PANORAMA_ABOUTDIALOG_H
 #define PANORAMA_ABOUTDIALOG_H
 
-#include <string>
-#include <sstream>
-
-#include "imgui.h"
-#include "config.h"
-
-#include "FontDefinitions.h"
-
-#include <GLFW/glfw3.h>
-
 namespace panorama {
 
     class AboutDialog {

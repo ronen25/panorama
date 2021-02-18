@@ -16,7 +16,32 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <string>
+#include <sstream>
+
+#include "imgui.h"
+#include "config.h"
+
+#include "FontDefinitions.h"
 #include "AboutDialog.h"
+
+#include <GLFW/glfw3.h>
+
+using std::string;
+using std::stringstream;
+
+static string getCompilerIDString() {
+    std::stringstream sstrCompilerVersion;
+
+#if     defined(__GNUC__)
+    sstrCompilerVersion << "GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__;
+#elif   defined(__llvm__) || defined(__clang__)
+    sstrCompilerVersion << "LLVM/Clang " << __clang_major__ << "."
+                                        << __clang_minor__ << "." << __clang_patchlevel__;
+#endif
+
+    return sstrCompilerVersion.str();
+}
 
 void panorama::AboutDialog::renderUI() {
     // Version
@@ -26,18 +51,9 @@ void panorama::AboutDialog::renderUI() {
 
     ImGui::Text("Version %s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
 
-    // Determine compiler name
-    std::stringstream sstrCompilerVersion;
-#if     defined(__GNUC__)
-    sstrCompilerVersion << "GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__;
-#elif   defined(__llvm__) || defined(__clang__)
-    sstrCompilerVersion << "LLVM/Clang " << __clang_major__ << "."
-                                        << __clang_minor__ << "." << __clang_patchlevel__;
-#endif
-
     ImGui::Separator();
 
-    ImGui::Text("Copyright (c) Ronen Lapushner 2018-2019.");
+    ImGui::Text("Copyright (c) Ronen Lapushner 2018-2021.");
     ImGui::Text("Redistributed under the GNU GPL v3+ license.");
 
     ImGui::Separator();
@@ -48,7 +64,7 @@ void panorama::AboutDialog::renderUI() {
     // Compiler
     ImGui::TextDisabled("Compiler");
     ImGui::NextColumn();
-    ImGui::TextDisabled("%s", sstrCompilerVersion.str().c_str());
+    ImGui::TextDisabled("%s", getCompilerIDString().c_str());
     ImGui::NextColumn();
 
     // Build Date
@@ -58,26 +74,20 @@ void panorama::AboutDialog::renderUI() {
     ImGui::NextColumn();
 
     // IMGUI version
-    ImGui::TextDisabled("IMGui version");
+    ImGui::TextDisabled("imgui Version");
     ImGui::NextColumn();
     ImGui::TextDisabled(IMGUI_VERSION);
     ImGui::NextColumn();
 
-    // SDL version
-    /*
-    ImGui::TextDisabled("SDL Version");
+    // GLFW version
+    ImGui::TextDisabled("GLFW Version");
     ImGui::NextColumn();
     {
-        SDL_version sdlVersionInfo;
-
-        SDL_VERSION(&sdlVersionInfo);
-
-        ImGui::TextDisabled("%d.%d.%d", sdlVersionInfo.major,
-                            sdlVersionInfo.minor,
-                            sdlVersionInfo.patch);
+        int major, minor, rev;
+        glfwGetVersion(&major, &minor, &rev);
+        ImGui::TextDisabled("%d.%d.%d", major, minor, rev);
         ImGui::NextColumn();
     }
-     */
 
     // FontAwesome version
     // TODO: Find a way to extract this at compile time/runtime - currently hardcoded!

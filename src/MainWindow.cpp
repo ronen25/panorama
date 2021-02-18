@@ -29,7 +29,17 @@ panorama::MainWindow::MainWindow(GLFWwindow *glfwWindow,
 panorama::MainWindow::~MainWindow() { }
 
 void panorama::MainWindow::renderUI() {
-    // Static updater tasks
+    static bool bAboutDialog = false;
+
+    // Set window to maximum size
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+
+    // Begin window
+    ImGui::Begin("#mainwindow", nullptr,
+                 ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                 ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysUseWindowPadding);
+
     // TOFIX: This whole block is kindda ugly. Must be some way of unifying and templating this entire thing...
     static auto futUsageUpdaterTask = m_oCpuPane.cpuUsage().launchCpuUsageSampleTask();
     static auto futProcessListGetterTask = m_oProcessListPane.processList().launchProcessListGetterTask();
@@ -86,6 +96,39 @@ void panorama::MainWindow::renderUI() {
     // Begin rendering the UI
     ImGui::PushFont(panorama::getFont(PANORAMA_FONT_REGULAR));
 
+    // Main menubar
+    if (ImGui::BeginMenuBar()) {
+        if (ImGui::BeginMenu("File")) {
+            if (ImGui::MenuItem("Exit", "Alt+F4", false, true)) {
+                glfwSetWindowShouldClose(g_glfwWindow, 1);
+            }
+
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("View")) {
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Help")) {
+            if (ImGui::MenuItem("About...", "F1", false, true)) {
+                bAboutDialog = true;
+            }
+
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMenuBar();
+    }
+
+    if (bAboutDialog)
+        ImGui::OpenPopup("About Panorama");
+
+    if (ImGui::BeginPopupModal("About Panorama", &bAboutDialog)) {
+        AboutDialog::renderUI();
+        ImGui::EndPopup();
+    }
+
     // Main column layout
     ImGui::BeginColumns("columns", 2, ImGuiColumnsFlags_NoResize);
 
@@ -111,4 +154,6 @@ void panorama::MainWindow::renderUI() {
     ImGui::EndColumns();
 
     ImGui::PopFont();
+
+    ImGui::End();
 }
