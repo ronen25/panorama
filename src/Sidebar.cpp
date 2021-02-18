@@ -18,6 +18,8 @@
 
 #include "Sidebar.h"
 
+#include <iostream>
+
 panorama::Sidebar::Sidebar(float fWidth)
         : m_fWidth{fWidth},
           m_eCurrentlyVisiblePane{PaneType::PANETYPE_CPU} { }
@@ -32,7 +34,7 @@ void panorama::Sidebar::renderUI() {
     static bool bIsAboutOpen = false;
     static bool bIsSettingsOpen = false;
 
-    ImGui::BeginChild("##sidebar");
+    //ImGui::BeginChild("##sidebar");
 
     // CPU Pane button
     if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
@@ -50,22 +52,26 @@ void panorama::Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetTextLineHeightWithSpacing();
-    ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
+    //const float fAvailSpace = ImGui::GetWindowHeight();
+    //ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
 
     // Spacing
-    ImGui::Spacing();
+    //ImGui::Spacing();
 
     // About
+    /*
     if (ImGui::Selectable("About...")) {
         bIsAboutOpen = true;
         ImGui::OpenPopup("About Panorama...");
     }
+     */
 
     // Exit
+    /*
     if (ImGui::Selectable("Exit")) {
         glfwSetWindowShouldClose(g_glfwWindow, 1);
     }
+     */
 
     // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
@@ -73,5 +79,5 @@ void panorama::Sidebar::renderUI() {
         ImGui::EndPopup();
     }
 
-    ImGui::EndChild();
+    //ImGui::EndChild();
 }
