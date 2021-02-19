@@ -17,40 +17,16 @@
  */
 #include "ProcessListPane.h"
 
-panorama::ProcessListPane::ProcessListPane() : m_eUnitScale{MeasurementScale::MEASUREMENT_SCALE_BINARY},
-                                               m_eUnit{MeasurementUnit::UNIT_MIB},
-                                               m_nCurrentlySelectedProcess{-1},
+panorama::ProcessListPane::ProcessListPane() : m_nCurrentlySelectedProcess{-1},
                                                m_nCurrentlyVisibleProcesses{ 0 } {
     m_arrFilterBuffer.fill(0);
 }
 
 panorama::ProcessListPane::~ProcessListPane() { }
 
-void panorama::ProcessListPane::renderUI() {
+void panorama::ProcessListPane::renderUI(const UnitManager &unitManager) {
     static bool bShowPriorityPopup = false;
     ImGui::BeginChild("##processlistpane");
-
-    // Top header
-    // Memory measurement units
-    ImGui::Text("Measurement Units: ");
-    ImGui::SameLine();
-
-    if (ImGui::RadioButton("Binary", (m_eUnitScale == MeasurementScale::MEASUREMENT_SCALE_BINARY))) {
-        m_eUnitScale = MeasurementScale::MEASUREMENT_SCALE_BINARY;
-        m_eUnit = MeasurementUnit::UNIT_MIB;
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::RadioButton("SI", (m_eUnitScale == MeasurementScale::MEASUREMENT_SCALE_SI))) {
-        m_eUnitScale = MeasurementScale::MEASUREMENT_SCALE_SI;
-        m_eUnit = MeasurementUnit::UNIT_MB;
-    }
-
-    // Separator
-    ImGui::SameLine();
-    ImGui::TextDisabled("|");
-    ImGui::SameLine();
 
     // Filter
     ImGui::Text("Filter: ");
@@ -140,7 +116,7 @@ void panorama::ProcessListPane::renderUI() {
         ImGui::NextColumn();
 
         // Set the unit string
-        const std::string sUnitString = MemoryUnitConverter::unitToString(m_eUnit);
+        const std::string sUnitString = unitManager.unitString(unitManager.unitProcessMemory());
 
         // Name
         ImGui::Text("%s", procInfo.m_sName.c_str());
@@ -152,13 +128,13 @@ void panorama::ProcessListPane::renderUI() {
 
         // Total Memory
         ImGui::Text("%.2f %s",
-                    (procInfo.m_ullResidentMemSize - procInfo.m_ullSharedMemSize) / static_cast<float>(m_eUnit),
+                    (procInfo.m_ullResidentMemSize - procInfo.m_ullSharedMemSize) / static_cast<float>(unitManager.unitProcessMemory()),
                     sUnitString.c_str());
         ImGui::NextColumn();
 
         // Virtual Memory
         ImGui::Text("%.2f %s",
-                    procInfo.m_ullVirtMemSize / static_cast<float>(m_eUnit),
+                    procInfo.m_ullVirtMemSize / static_cast<float>(unitManager.unitProcessMemory()),
                     sUnitString.c_str());
         ImGui::NextColumn();
 

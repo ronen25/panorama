@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,13 +19,8 @@
 #ifndef PANORAMA_MEMORYINFOPANE_H
 #define PANORAMA_MEMORYINFOPANE_H
 
-#include <sstream>
-#include <iomanip>
-
-#include "imgui.h"
-
-#include "MemoryUnits.h"
 #include "MemoryInfo.h"
+#include "MeasurementUnit.h"
 
 #include "FontDefinitions.h"
 #include "Utils.h"
@@ -37,32 +32,16 @@ namespace panorama {
         // Cnstr.
         MemoryInfoPane();
 
-        // Dstr.
-        ~MemoryInfoPane();
-
         // Methods
-        void renderUI();
+        void renderUI(const UnitManager &unitManager);
 
         // Getters
-        inline MemoryInfo &memoryInfo() { return m_oMemInfo; }
-
-        // Utility methods
-        inline std::string memoryUsageToString(float fSample) {
-            std::stringstream sstr;
-
-            sstr << std::setprecision(3) << fSample << "%";
-
-            return sstr.str();
-        }
-
-        // Enums
-
+        inline MemoryInfo &memoryInfo() { return m_memInfo; }
 
     private:
         // Properties
-        MemoryInfo m_oMemInfo;
-        MeasurementUnit  m_eUnit;
-        MeasurementScale m_eUnitScale;
+        MemoryInfo m_memInfo;
+        MeasurementScale m_unitScale;
     };
 
 }

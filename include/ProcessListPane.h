@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 #include "imgui.h"
 
-#include "MemoryUnits.h"
+#include "MeasurementUnit.h"
 #include "ProcessList.h"
 #include "ProcessUtils.h"
 
@@ -40,7 +40,7 @@ namespace panorama {
         ~ProcessListPane();
 
         // Methods
-        void renderUI();
+        void renderUI(const UnitManager &unitManager);
 
         // Getters
         inline ProcessList &processList() { return m_oProcessList; }
@@ -48,8 +48,6 @@ namespace panorama {
     private:
         // Properties
         ProcessList m_oProcessList;
-        MeasurementUnit m_eUnit;
-        MeasurementScale m_eUnitScale;
         std::array<char, PANORAMA_FILTER_BUFF_LEN> m_arrFilterBuffer;
         struct ImGuiTextFilter m_stTextFilter;
         PANORAMA_PROCESSID_TYPE m_nCurrentlySelectedProcess;

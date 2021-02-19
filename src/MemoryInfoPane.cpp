@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2021 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,36 +16,35 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <string>
+#include <sstream>
+#include <iomanip>
+
+#include "imgui.h"
+
 #include "MemoryInfoPane.h"
+#include "MeasurementUnit.h"
 
-panorama::MemoryInfoPane::MemoryInfoPane()
-        : m_eUnit{MeasurementUnit::UNIT_GIB}, m_eUnitScale{MeasurementScale::MEASUREMENT_SCALE_BINARY}  { }
+using std::string;
 
-panorama::MemoryInfoPane::~MemoryInfoPane() { }
+using namespace panorama;
 
-void panorama::MemoryInfoPane::renderUI() {
+static string memoryUsageToString(float fSample) {
+    std::stringstream sstr;
+
+    sstr << std::setprecision(3) << fSample << "%";
+
+    return sstr.str();
+}
+
+MemoryInfoPane::MemoryInfoPane() { }
+
+void MemoryInfoPane::renderUI(const UnitManager &unitManager) {
     ImGui::BeginChild("##memoryinfopane");
 
-    // Header
-    ImGui::Text("Measurement Units: ");
-    ImGui::SameLine();
-
-    if (ImGui::RadioButton("Binary", (m_eUnitScale == MeasurementScale::MEASUREMENT_SCALE_BINARY))) {
-        m_eUnitScale = MeasurementScale::MEASUREMENT_SCALE_BINARY;
-        m_eUnit = MeasurementUnit::UNIT_GIB;
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::RadioButton("SI", (m_eUnitScale == MeasurementScale::MEASUREMENT_SCALE_SI))) {
-        m_eUnitScale = MeasurementScale::MEASUREMENT_SCALE_SI;
-        m_eUnit = MeasurementUnit::UNIT_GB;
-    }
-
-    ImGui::Separator();
-
     // Set the unit string
-    const std::string sUnitString = MemoryUnitConverter::unitToString(m_eUnit);
+    // TOFIX: Hardcoded to GIB
+    const std::string sUnitString = UnitManager::unitString(unitManager.unitMemory());
 
     // RAM details
     ImGui::PushFont(panorama::getFont(PANORAMA_FONT_TITLE));
@@ -54,7 +53,7 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::SameLine();
 
     ImGui::Text("%.2f %s",
-                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulTotalRam, m_eUnit)),
+                static_cast<float>(UnitManager::convertTo(m_memInfo.data().ulTotalRam, unitManager.unitMemory())),
                 sUnitString.c_str());
 
     ImGui::PopFont();
@@ -65,21 +64,21 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::TextDisabled("Free: ");
     ImGui::SameLine();
     ImGui::Text("%.2f %s (%.2f%%)",
-                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulAvailRam, m_eUnit)),
+                static_cast<float>(UnitManager::convertTo(m_memInfo.data().ulAvailRam, unitManager.unitMemory())),
                 sUnitString.c_str(),
-                (static_cast<double>(m_oMemInfo.data().ulAvailRam) /
-                 static_cast<double>(m_oMemInfo.data().ulTotalRam)) * 100);
+                (static_cast<float>(m_memInfo.data().ulAvailRam) /
+                 static_cast<float>(m_memInfo.data().ulTotalRam)) * 100);
 
     ImGui::Separator();
 
     // RAM Usage graph
     const ImVec2 v2RamUsageGraphSize = ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetWindowHeight() * 0.4f);
-    ImGui::PlotLines("##ramplot", m_oMemInfo.ramUsageVector().data(), PANORAMA_MEMINFO_SAMPLES,
+    ImGui::PlotLines("##ramplot", m_memInfo.ramUsageVector().data(), PANORAMA_MEMINFO_SAMPLES,
                      0, "RAM Usage (Percents)",
                      0, 100,
                      v2RamUsageGraphSize);
-    panorama::guiutils::drawBackgroundTextOnGraph(panorama::getFont(PANORAMA_FONT_EXTRALARGE), v2RamUsageGraphSize,
-                                                  memoryUsageToString(m_oMemInfo.ramUsageVector().back()),
+    guiutils::drawBackgroundTextOnGraph(panorama::getFont(PANORAMA_FONT_EXTRALARGE), v2RamUsageGraphSize,
+                                                  memoryUsageToString(m_memInfo.ramUsageVector().back()),
                                                   0.4f);
 
     ImGui::Separator();
@@ -91,7 +90,7 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::SameLine();
 
     ImGui::Text("%.2f %s",
-                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulTotalSwap, m_eUnit)),
+                static_cast<float>(UnitManager::convertTo(m_memInfo.data().ulTotalSwap, unitManager.unitMemory())),
                 sUnitString.c_str());
 
     ImGui::PopFont();
@@ -102,19 +101,19 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::TextDisabled("Free: ");
     ImGui::SameLine();
     ImGui::Text("%.2f %s",
-                static_cast<double>(MemoryUnitConverter::convertToMeasurement(m_oMemInfo.data().ulFreeSwap, m_eUnit)),
+                static_cast<float>(UnitManager::convertTo(m_memInfo.data().ulFreeSwap, unitManager.unitMemory())),
                 sUnitString.c_str());
 
     ImGui::Separator();
 
     // Swap usage graph
-    ImGui::PlotLines("##swapplot", m_oMemInfo.swapUsageVector().data(), PANORAMA_MEMINFO_SAMPLES,
+    ImGui::PlotLines("##swapplot", m_memInfo.swapUsageVector().data(), PANORAMA_MEMINFO_SAMPLES,
                      0, "Swap Usage (Percents)",
                      0, 100,
                      ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetWindowHeight() * 0.4f));
-    panorama::guiutils::drawBackgroundTextOnGraph(panorama::getFont(PANORAMA_FONT_EXTRALARGE), v2RamUsageGraphSize,
-                                                  memoryUsageToString(m_oMemInfo.swapUsageVector().back()),
-                                                  0.4f);
+    guiutils::drawBackgroundTextOnGraph(panorama::getFont(PANORAMA_FONT_EXTRALARGE), v2RamUsageGraphSize,
+                                        memoryUsageToString(m_memInfo.swapUsageVector().back()),
+                                        0.4f);
 
     ImGui::EndChild();
 }

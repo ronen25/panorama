@@ -16,7 +16,12 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include <string>
+#include <chrono>
+
 #include "MainWindow.h"
+
+#include "PlotColorsArray.h"
 
 using std::string;
 
@@ -24,11 +29,8 @@ using namespace panorama;
 
 panorama::MainWindow::MainWindow(GLFWwindow *glfwWindow,
                                 const std::string &sTitle, int w, int h) :
-        m_eMeasurementUnits{MeasurementUnits::MEASUREMENT_UNITS_BINARY},
         m_oSidebar{w * 0.1f}, m_oCpuPane{ },
         m_oProcessListPane{ }, m_oMemInfoPane{ } { }
-
-panorama::MainWindow::~MainWindow() { }
 
 void panorama::MainWindow::renderUI() {
     static bool bAboutDialog = false;
@@ -61,7 +63,7 @@ void panorama::MainWindow::renderUI() {
             }
 
             // Update last refresh time
-            m_tLastCpuUsageRefresh = std::chrono::steady_clock::now();
+            m_tLastCpuUsageRefresh = clock_t::now();
         }
 
         auto tDeltaProcessListMillis =
@@ -76,7 +78,7 @@ void panorama::MainWindow::renderUI() {
             }
 
             // Update last refresh time
-            m_tLastProcessListRefresh = std::chrono::steady_clock::now();
+            m_tLastProcessListRefresh = clock_t::now();
         }
 
         auto tDeltaMemoryListMillis =
@@ -91,7 +93,7 @@ void panorama::MainWindow::renderUI() {
             }
 
             // Update last refresh time
-            m_tLastMemoryInfoRefresh = std::chrono::steady_clock::now();
+            m_tLastMemoryInfoRefresh = clock_t::now();
         }
     }
 
@@ -123,6 +125,18 @@ void panorama::MainWindow::renderUI() {
                 if (ImGui::MenuItem("imgui Classic", nullptr,
                                     ThemeManager::isThemeSet(Theme::PANORAMA_THEME_CLASSIC))) {
                     ThemeManager::setTheme(Theme::PANORAMA_THEME_CLASSIC);
+                }
+
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Measurement Units")) {
+                if (ImGui::MenuItem("Binary", nullptr, m_unitManager.isScaleSet(MeasurementScale::BINARY))) {
+                    m_unitManager.setScale(MeasurementScale::BINARY);
+                }
+
+                if (ImGui::MenuItem("SI", nullptr, m_unitManager.isScaleSet(MeasurementScale::SI))) {
+                    m_unitManager.setScale(MeasurementScale::SI);
                 }
 
                 ImGui::EndMenu();
@@ -165,10 +179,10 @@ void panorama::MainWindow::renderUI() {
             m_oCpuPane.renderUI();
             break;
         case PaneType::PANETYPE_PROCESSES:
-            m_oProcessListPane.renderUI();
+            m_oProcessListPane.renderUI(m_unitManager);
             break;
         case PaneType::PANETYPE_MEMORY:
-            m_oMemInfoPane.renderUI();
+            m_oMemInfoPane.renderUI(m_unitManager);
             break;
     }
 

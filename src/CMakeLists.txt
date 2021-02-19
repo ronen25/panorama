@@ -41,8 +41,9 @@ set(SRCS panorama.cpp
          ProcessUtils.cpp
          MemoryInfo.cpp
          MemoryInfoPane.cpp
-        MainWindow.cpp
-         Theming.cpp)
+         MainWindow.cpp
+         Theming.cpp
+         MeasurementUnit.cpp)
 
 # Create the configuration file
 configure_file("${CMAKE_SOURCE_DIR}/config.h.in"

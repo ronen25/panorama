@@ -19,15 +19,6 @@
 #ifndef PANORAMA_MAINWINDOW_H
 #define PANORAMA_MAINWINDOW_H
 
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <chrono>
-#include <future>
-#include <cstring>
-#include <iomanip>
-#include <algorithm>
-
 #include <GLFW/glfw3.h>
 
 #include "config.h"
@@ -37,9 +28,9 @@
 #include "CPUPane.h"
 #include "ProcessListPane.h"
 #include "MemoryInfoPane.h"
+#include "MeasurementUnit.h"
 
 #include "SampleRates.h"
-#include "PlotColorsArray.h"
 
 namespace panorama {
     class MainWindow final {
@@ -47,32 +38,21 @@ namespace panorama {
         // Cnstr.
         MainWindow(GLFWwindow *glfwWindow, const std::string &sTitle, int w, int h);
 
-        // Dstr.
-        ~MainWindow();
-
-        // Overridden methods
         void renderUI();
 
     private:
-        enum MeasurementUnits {
-            MEASUREMENT_UNITS_SI,
-            MEASUREMENT_UNITS_BINARY
-        };
+        using clock_t = std::chrono::steady_clock;
 
         // Properties
-        MeasurementUnits m_eMeasurementUnits;
-        std::chrono::steady_clock::time_point m_tLastCpuUsageRefresh, m_tLastProcessListRefresh,
-                                              m_tLastMemoryInfoRefresh, m_tLastDisksInfoRefresh;
+        UnitManager m_unitManager;
+        clock_t::time_point m_tLastCpuUsageRefresh, m_tLastProcessListRefresh,
+                            m_tLastMemoryInfoRefresh;
 
         // GUI Panes
         Sidebar m_oSidebar;
         CPUPane m_oCpuPane;
         ProcessListPane m_oProcessListPane;
         MemoryInfoPane m_oMemInfoPane;
-
-        // Typedefs for std::chrono
-        using clock_t = std::chrono::steady_clock;
-        using milli_t = std::chrono::duration<float, std::milli>;
     };
 }
 
