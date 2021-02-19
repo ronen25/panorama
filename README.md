@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <b>Current version: 1.4.0</b>
+  <b>Current version: 1.5.0</b>
 </p>
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/panorama)
@@ -52,7 +52,7 @@ This will also scale other UI elements.
 
 2 *When Panorama opens, all I get is a black window...*
 
-Panorama uses ImGui which uses OpenGL 2.1 (through SDL2) to render the window.
+Panorama uses ImGui which uses OpenGL 2.1 (with GLFW) to render the window.
 Make sure you have the latest video drivers!
 
 ----------------------
