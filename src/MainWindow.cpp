@@ -22,8 +22,9 @@ using std::string;
 
 panorama::MainWindow::MainWindow(SDL_Window *pSdlWindow,
                                 const std::string &sTitle, int w, int h) : Window(pSdlWindow, sTitle, w, h),
+        width{w}, height{h},
         m_eMeasurementUnits{MeasurementUnits::MEASUREMENT_UNITS_BINARY},
-        m_oSidebar{w * 0.1f}, m_oCpuPane{ },
+        m_oSidebar{ }, m_oCpuPane{ },
         m_oProcessListPane{ }, m_oMemInfoPane{ } { }
 
 panorama::MainWindow::~MainWindow() { }
@@ -90,7 +91,7 @@ void panorama::MainWindow::renderUI() {
     ImGui::BeginColumns("columns", 2, ImGuiColumnsFlags_NoResize);
 
     // Render the sidebar
-    ImGui::SetColumnWidth(0, m_oSidebar.width());
+    ImGui::SetColumnWidth(0, width * 0.1);
     m_oSidebar.renderUI();
 
     ImGui::NextColumn();

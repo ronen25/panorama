@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,7 +18,9 @@
 
 #include "AboutDialog.h"
 
-void panorama::AboutDialog::renderUI() {
+using namespace panorama;
+
+void AboutDialog::renderUI() {
     // Version
     ImGui::PushFont(panorama::getFont(PANORAMA_FONT_EXTRALARGE));
     ImGui::Text("PANORAMA");
@@ -26,7 +28,7 @@ void panorama::AboutDialog::renderUI() {
 
     ImGui::Text("Version %s for %s", PANORAMA_VERSION, PANORAMA_PLATFORM);
 
-    // Determine compiler name
+    // Compiler name
     std::stringstream sstrCompilerVersion;
 #if     defined(__GNUC__)
     sstrCompilerVersion << "GCC " << __GNUC__ << "." << __GNUC_MINOR__ << "." << __GNUC_PATCHLEVEL__;
@@ -37,7 +39,7 @@ void panorama::AboutDialog::renderUI() {
 
     ImGui::Separator();
 
-    ImGui::Text("Copyright (c) Ronen Lapushner 2018-2019.");
+    ImGui::Text("Copyright (c) Ronen Lapushner 2018-2022.");
     ImGui::Text("Redistributed under the GNU GPL v3+ license.");
 
     ImGui::Separator();
@@ -64,11 +66,10 @@ void panorama::AboutDialog::renderUI() {
     ImGui::NextColumn();
 
     // SDL version
-    ImGui::TextDisabled("SDL Version");
+    ImGui::TextDisabled("SDL version");
     ImGui::NextColumn();
     {
         SDL_version sdlVersionInfo;
-
         SDL_VERSION(&sdlVersionInfo);
 
         ImGui::TextDisabled("%d.%d.%d", sdlVersionInfo.major,

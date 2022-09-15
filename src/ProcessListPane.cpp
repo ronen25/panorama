@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ void panorama::ProcessListPane::renderUI() {
 
     // Kinduva cheap hack to make sure we can safely draw the two buttons.
     // IMGUI currently lacks any functionality that allows doing this in a proper way.
-    m_stTextFilter.Draw("##Filter", ImGui::GetContentRegionAvailWidth() - 2 * ImGui::CalcTextSize("LONGENOUGHTEXT").x);
+    m_stTextFilter.Draw("##Filter", ImGui::GetContentRegionAvail().x - 2 * ImGui::CalcTextSize("LONGENOUGHTEXT").x);
 
     // Prioity popup (if anything's selected)
     if (m_nCurrentlySelectedProcess != -1) {
@@ -100,7 +100,7 @@ void panorama::ProcessListPane::renderUI() {
     ImGui::Separator();
 
     ImGui::BeginChild("##clmnprocesses_childframe",
-                      ImVec2(0, ImGui::GetContentRegionAvail().y - ImGui::GetItemsLineHeightWithSpacing()));
+                      ImVec2(0, ImGui::GetContentRegionAvail().y - ImGui::GetTextLineHeightWithSpacing()));
 
     ImGui::Columns(6, "##clmnsprocesses", true);
     ImGui::Separator();

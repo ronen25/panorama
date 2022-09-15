@@ -1,5 +1,5 @@
 name: panorama
-version: "1.4.0"
+version: "1.5.0"
 summary: A simple system monitor for Linux
 description: |
     Panorama is a simple system monitor for Linux. It allows you to monitor system CPU and
