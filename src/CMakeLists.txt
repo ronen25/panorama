@@ -16,9 +16,6 @@
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Set gl3w sources
-set(GL3W_SRCS  ${CMAKE_SOURCE_DIR}/src/gl3w.c)
-
 # Set IMGUI sources
 set(IMGUI_SRCS ${CMAKE_SOURCE_DIR}/imgui/imgui.cpp
                ${CMAKE_SOURCE_DIR}/imgui/imgui_draw.cpp

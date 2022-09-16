@@ -5,6 +5,7 @@ description: |
     Panorama is a simple system monitor for Linux. It allows you to monitor system CPU and
     memory usage, and manage processes.
 grade: stable
+base: core18
 confinement: strict
 icon: images/panorama.svg
 type: app
@@ -16,7 +17,6 @@ build-packages:
     - libsdl2-image-dev
     - libcap-dev
     - libgl1-mesa-dev
-    - python
 
 apps:
     panorama:
@@ -40,5 +40,4 @@ parts:
             - libsdl2-image-2.0-0
             - libcap2
             - libc6
-        after: [desktop-glib-only]
 
