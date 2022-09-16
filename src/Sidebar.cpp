@@ -45,8 +45,8 @@ void Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    //const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetTextLineHeight();
-    //ImGui::InvisibleButton("##siderbar_sep", ImVec2(-1, fAvailSpace));
+    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ImGui::GetTextLineHeightWithSpacing() * 2;
+    ImGui::InvisibleButton("##siderbar_sep", ImVec2(-1, fAvailSpace));
 
     // Spacing
     ImGui::Spacing();
@@ -59,18 +59,8 @@ void Sidebar::renderUI() {
         ImGui::OpenPopup("About Panorama...");
     }
 
-    // Exit
-    if (ImGui::Selectable("Exit")) {
-        SDL_Event event;
-        event.type = SDL_QUIT;
-
-        SDL_PushEvent(&event);
-    }
-
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
         AboutDialog::renderUI();
         ImGui::EndPopup();
     }
-
-    //ImGui::EndChild();
 }
