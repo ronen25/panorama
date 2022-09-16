@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <b>Current version: 1.4.0</b>
+  <b>Current version: 1.5.0</b>
 </p>
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/panorama)
@@ -24,7 +24,7 @@
 Panorama is a very simple Linux system monitor written in C++ using the ImGui UI toolkit. It's meant to show that writing beautiful and functional tools using IMGui is quite easy.
 
 ## Supported Platforms
-Currently the tool was tested on KDE Neon 5.12, Ubuntu 16.04/18.04 LTS, and Fedora 27-30 with the AMD64 and x86 variants.
+Currently the tool was tested on KDE Neon, Ubuntu 16.04 - 22.04, and Fedora 27-34 with the AMD64 and x86 variants.
 
 Any video driver that has support for OpenGL 2.1 will suffice. Tested with AMD, Intel, NVIDIA and Virtualbox drivers.
 

@@ -42,11 +42,6 @@ find_package(OpenGL  REQUIRED)
 find_package(SDL2    REQUIRED)
 find_package(Threads REQUIRED)
 
-# Generate GL3W headers using the provided script
-message("Downloading gl3w sources into Panorama source tree...")
-execute_process(COMMAND "python" "${CMAKE_SOURCE_DIR}/gl3w/gl3w_gen.py" "--ext" "--root=.."
-                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/gl3w")
-
 # Uninstall target
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"

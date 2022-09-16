@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,7 +44,6 @@ void panorama::MemoryInfoPane::renderUI() {
 
     ImGui::Separator();
 
-    // Set the unit string
     const std::string sUnitString = MemoryUnitConverter::unitToString(m_eUnit);
 
     // RAM details
@@ -73,7 +72,7 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::Separator();
 
     // RAM Usage graph
-    const ImVec2 v2RamUsageGraphSize = ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetWindowHeight() * 0.4f);
+    const ImVec2 v2RamUsageGraphSize = ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetWindowHeight() * 0.4f);
     ImGui::PlotLines("##ramplot", m_oMemInfo.ramUsageVector().data(), PANORAMA_MEMINFO_SAMPLES,
                      0, "RAM Usage (Percents)",
                      0, 100,
@@ -111,7 +110,7 @@ void panorama::MemoryInfoPane::renderUI() {
     ImGui::PlotLines("##swapplot", m_oMemInfo.swapUsageVector().data(), PANORAMA_MEMINFO_SAMPLES,
                      0, "Swap Usage (Percents)",
                      0, 100,
-                     ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetWindowHeight() * 0.4f));
+                     ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetWindowHeight() * 0.4f));
     panorama::guiutils::drawBackgroundTextOnGraph(panorama::getFont(PANORAMA_FONT_EXTRALARGE), v2RamUsageGraphSize,
                                                   memoryUsageToString(m_oMemInfo.swapUsageVector().back()),
                                                   0.4f);

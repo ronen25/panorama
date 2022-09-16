@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@
 #define ITEMS_AT_BOTTOM 2
 
 namespace panorama {
-
     // Enums
     enum PaneType {
         PANETYPE_CPU,
@@ -44,25 +43,19 @@ namespace panorama {
 
     class Sidebar {
     public:
-        // Cnstr.
-        Sidebar(float fWidth);
-
-        // Dstr.
+        Sidebar();
         ~Sidebar();
 
         // Methods
         void renderUI();
 
         // Getters
-        inline float width() const { return m_fWidth; }
         inline PaneType currentlyVisiblePane() const { return m_eCurrentlyVisiblePane; }
 
     private:
         // Properties
-        float m_fWidth;
         PaneType m_eCurrentlyVisiblePane;
     };
-
 }
 
 #endif //PANORAMA_SIDEBAR_H

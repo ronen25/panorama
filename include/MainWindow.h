@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@ namespace panorama {
         void renderUI() override;
 
         // Properties
+        int width, height;
         MeasurementUnits m_eMeasurementUnits;
         std::chrono::steady_clock::time_point m_tLastCpuUsageRefresh, m_tLastProcessListRefresh,
                                               m_tLastMemoryInfoRefresh, m_tLastDisksInfoRefresh;

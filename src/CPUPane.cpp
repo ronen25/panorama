@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ void panorama::CPUPane::renderUI() {
     {
         if (m_eGraphType == GraphType::GRAPH_TYPE_TOTAL) {
             float fLastSample = m_oCpuUsage.getCoreUsageDataVector(0).back();
-            const ImVec2 v2GraphSize = ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetContentRegionAvail().y);
+            const ImVec2 v2GraphSize = ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y);
 
             ImGui::PlotLines("",
                              m_oCpuUsage.getCoreUsageDataArray(0),
@@ -110,7 +110,7 @@ void panorama::CPUPane::renderUI() {
             const int nMinCpusInLine = m_oCpuInfo.threads() > PANORAMA_CPUGRAPH_MAX_PER_ROW ?
                                        PANORAMA_CPUGRAPH_MAX_PER_ROW : m_oCpuInfo.threads();
             const int nCpuGraphRows = m_oCpuInfo.threads() / nMinCpusInLine;
-            const float fGraphWidth = ImGui::GetContentRegionAvailWidth() / nMinCpusInLine;
+            const float fGraphWidth = ImGui::GetContentRegionAvail().x / nMinCpusInLine;
             const float fGraphMaxHeight = std::max(ImGui::GetContentRegionAvail().y / nCpuGraphRows,
                                                    ImGui::GetContentRegionAvail().y * 0.25f) - nCpuGraphRows * m_fItemSpacing;
             const ImVec2 v2GraphSize = ImVec2(fGraphWidth, fGraphMaxHeight);

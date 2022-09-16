@@ -1,6 +1,6 @@
 /*
  *  Panorama -  A simple system monitor for Linux, written using dear ImGui.
- *  Copyright (C) 2018-2019 Ronen Lapushner
+ *  Copyright (C) 2018-2022 Ronen Lapushner
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,21 +18,16 @@
 
 #include "Sidebar.h"
 
-panorama::Sidebar::Sidebar(float fWidth)
-        : m_fWidth{fWidth},
-          m_eCurrentlyVisiblePane{PaneType::PANETYPE_CPU} { }
-panorama::Sidebar::~Sidebar() { }
+using namespace panorama;
 
-void panorama::Sidebar::renderUI() {
-    // Determine scaling
-    if (panorama::guiutils::getScalingFactor() > 1.0f)
-        m_fWidth = ImGui::CalcTextSize("PROCESSES").x + 30;
+Sidebar::Sidebar()
+        : m_eCurrentlyVisiblePane{PaneType::PANETYPE_CPU} { }
+Sidebar::~Sidebar() { }
 
-    const ImVec2 v2ButtonSize = ImVec2(m_fWidth, m_fWidth / 2);
+void Sidebar::renderUI() {
     static bool bIsAboutOpen = false;
-    static bool bIsSettingsOpen = false;
 
-    ImGui::BeginChild("##sidebar");
+    auto v2ButtonSize = ImVec2(0, 70 * guiutils::getScalingFactor());
 
     // CPU Pane button
     if (ImGui::Selectable(ICON_FA_MICROCHIP " CPU",
@@ -50,8 +45,8 @@ void panorama::Sidebar::renderUI() {
         m_eCurrentlyVisiblePane = PaneType::PANETYPE_MEMORY;
 
     // Separator
-    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ITEMS_AT_BOTTOM * ImGui::GetItemsLineHeightWithSpacing();
-    ImGui::InvisibleButton("##siderbar_sep", ImVec2(m_fWidth, fAvailSpace));
+    const float fAvailSpace = ImGui::GetContentRegionAvail().y - ImGui::GetTextLineHeightWithSpacing() * 2;
+    ImGui::InvisibleButton("##siderbar_sep", ImVec2(-1, fAvailSpace));
 
     // Spacing
     ImGui::Spacing();
@@ -59,22 +54,13 @@ void panorama::Sidebar::renderUI() {
     // About
     if (ImGui::Selectable("About...")) {
         bIsAboutOpen = true;
+
+        ImGui::SetNextWindowSize(ImVec2(-1, 270 * guiutils::getScalingFactor()), 0);
         ImGui::OpenPopup("About Panorama...");
     }
 
-    // Exit
-    if (ImGui::Selectable("Exit")) {
-        SDL_Event event;
-        event.type = SDL_QUIT;
-
-        SDL_PushEvent(&event);
-    }
-
-    // Render about popup?
     if (ImGui::BeginPopupModal("About Panorama...", &bIsAboutOpen, ImGuiWindowFlags_NoResize)) {
         AboutDialog::renderUI();
         ImGui::EndPopup();
     }
-
-    ImGui::EndChild();
 }
